@@ -167,9 +167,9 @@ p{margin:0;line-height:1.55;font-size:var(--fs-body);} .muted{color:var(--ink-40
 .role-card .role-card-check{position:absolute;top:8px;right:8px;width:20px;height:20px;border-radius:50%;background:var(--amber-500);color:#fff;display:none;align-items:center;justify-content:center;font-size:12px;}
 .role-card.active .role-card-check{display:flex;}
 .service-tile-row{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;margin:14px 0;}
-.service-tile{flex-shrink:0;width:88px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:12px 6px;text-align:center;}
+.service-tile{flex-shrink:0;width:88px;background:var(--surface-2);border:1px solid var(--field-border);border-radius:14px;padding:12px 6px;text-align:center;}
 .service-tile .service-tile-icon{font-size:28px;}
-.service-tile p{color:#fff;font-size:11px;font-weight:600;margin-top:6px;line-height:1.3;}
+.service-tile p{color:var(--ink-900);font-size:11px;font-weight:700;margin-top:6px;line-height:1.3;}
 .tab-link{text-align:center;font-size:14.5px;color:var(--ink-400);margin-top:16px;}
 .tab-link b{color:var(--amber-500);cursor:pointer;}
 
@@ -1462,6 +1462,22 @@ p{margin:0;line-height:1.55;font-size:var(--fs-body);} .muted{color:var(--ink-40
         Share
       </button>
     </div>
+  </div>
+</template>
+
+<template id="tpl-modal-rider-promo">
+  <div class="modal" style="text-align:center;background:linear-gradient(160deg,#1B6B3D 0%,#0E3B22 60%);">
+    <button class="modal-close" data-close style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,.15);color:#fff;">✕</button>
+    <div style="font-size:64px;margin:10px 0 6px;">🏍️</div>
+    <h2 style="color:#fff;font-size:24px;">Earn while you ride</h2>
+    <p style="color:rgba(255,255,255,.75);margin-top:6px;font-size:14px;">Become a ZRider rider partner</p>
+    <div style="text-align:left;background:rgba(255,255,255,.08);border-radius:14px;padding:16px;margin:20px 0;">
+      <p style="color:#fff;font-size:13.5px;margin-bottom:10px;">✅ Set your own schedule and go online whenever you want</p>
+      <p style="color:#fff;font-size:13.5px;margin-bottom:10px;">✅ Get paid for every ride, delivery, and scheduled commute</p>
+      <p style="color:#fff;font-size:13.5px;margin-bottom:10px;">✅ Transparent earnings split, on-time withdrawals</p>
+      <p style="color:#fff;font-size:13.5px;">✅ A unique Rider ID so passengers can verify you</p>
+    </div>
+    <button class="btn btn-amber" id="rider-promo-signup" style="width:100%;">Sign up as Rider</button>
   </div>
 </template>
 
@@ -2922,6 +2938,18 @@ function doLogout(){
   auth.signOut();
 }
 
+function openRiderPromoModal(){
+  openModal('tpl-modal-rider-promo', (overlay)=>{
+    overlay.querySelector('#rider-promo-signup').addEventListener('click', ()=>{
+      closeModal();
+      pendingRequestRoleHint = 'rider';
+      $('auth-mode-login').classList.add('hidden');
+      $('auth-mode-register').classList.remove('hidden');
+      $('auth-error').textContent = '';
+    });
+  });
+}
+
 // ============================== AUTH SCREEN ==============================
 function renderAuth(){
   mount('tpl-auth');
@@ -2932,6 +2960,7 @@ function renderAuth(){
     $('auth-role-toggle').querySelectorAll('.role-card').forEach(c=>c.classList.remove('active'));
     card.classList.add('active');
     pendingRequestRoleHint = card.dataset.role;
+    if(card.dataset.role === 'rider') openRiderPromoModal();
   });
   $('go-register').addEventListener('click', ()=>{ $('auth-mode-login').classList.add('hidden'); $('auth-mode-register').classList.remove('hidden'); $('auth-error').textContent=''; });
   $('btn-google-signin').addEventListener('click', async ()=>{
