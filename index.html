@@ -512,14 +512,14 @@ Need help? Chat on WhatsApp
 <button onclick="loadEasyBuyTab('history')" id="ebt-history" style="padding:7px 14px;border-radius:50px;border:1.5px solid var(--g200);background:#fff;color:var(--g600);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:Inter,sans-serif;flex-shrink:0">History</button></div><div id="eb-content"><div style="text-align:center;padding:30px;color:var(--g400)"><div style="font-size:32px;margin-bottom:8px">&#128717;</div><p style="font-size:13px">Loading EasyBuy plans...</p></div></div></div></div><div class="bnav"><div class="bni" onclick="goPg('pg-dash')"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Home</span></div><div class="bni on" style="color:#b45309"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span>EasyBuy</span></div><div class="bni" onclick="openEasyBuyApply()"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg><span>Apply</span></div><div class="bni" onclick="goPg('pg-notif')"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg><span>Alerts</span></div><div class="bni" onclick="goPg('pg-profile')"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><span>Profile</span></div></div></div><!-- ======== EASYBUY APPLY MODAL ======== --><div class="modal" id="m-easybuy-apply"><div class="mbox" style="max-height:92vh;overflow-y:auto"><!-- Sticky Header --><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;position:sticky;top:0;background:#fff;padding-bottom:10px;border-bottom:1px solid #f1f5f9;z-index:1"><div><h3 style="font-size:17px;font-weight:700">&#128717; Apply for EasyBuy</h3><p style="font-size:11px;color:var(--g400);margin-top:2px">Buy now, pay daily from your Zmonie wallet</p></div><button onclick="closeM('m-easybuy-apply')" style="background:var(--g100);border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;color:var(--g600);flex-shrink:0">&#10005;</button></div><!-- Terms Banner --><div style="background:#fff7ed;border:1.5px solid #fed7aa;border-radius:11px;padding:13px;margin-bottom:14px"><div style="font-size:11px;font-weight:800;color:#c2410c;margin-bottom:8px;text-transform:uppercase">EASYBUY TERMS - READ CAREFULLY</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:8px"><div style="background:#fff;border-radius:8px;padding:8px;text-align:center"><div style="font-size:14px;font-weight:800;color:#c2410c">25%</div><div style="font-size:10px;color:#92400e">Deposit Required</div></div><div style="background:#fff;border-radius:8px;padding:8px;text-align:center"><div style="font-size:14px;font-weight:800;color:#c2410c">NGN 1,500</div><div style="font-size:10px;color:#92400e">Doc Fee</div></div><div style="background:#fff;border-radius:8px;padding:8px;text-align:center"><div style="font-size:14px;font-weight:800;color:#c2410c">Daily</div><div style="font-size:10px;color:#92400e">Auto Deductions</div></div></div><div style="font-size:11px;color:#92400e;line-height:1.7">&#8226; NGN 1,500 documentation fee deducted when you submit<br/>&#8226; Deposit is fixed at 25% of the product price &mdash; paid upfront to activate the plan<br/>&#8226; Remaining balance deducted daily from your Zmonie wallet<br/>&#8226; One guarantor with photo required (no ID upload needed from guarantor)</div></div><!-- Live Calculator --><div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:11px;padding:13px;margin-bottom:14px"><div style="font-size:12px;font-weight:700;color:#15803d;margin-bottom:10px">&#127381; LIVE EASYBUY CALCULATOR</div><div style="margin-bottom:10px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:4px;display:block">Product Price (NGN) *</label><input class="inp" type="number" id="eb-price" placeholder="e.g. 150000" min="5000" oninput="calcEasyBuyDeposit()"/></div><div style="margin-bottom:10px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:4px;display:block">Deposit (25% of Product Price) <span style="font-weight:400;color:var(--g400)">&mdash; auto-calculated</span></label><div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:12px;padding:13px 15px;font-size:15px;font-weight:700;color:#15803d" id="eb-deposit-display">Enter product price above</div><input type="hidden" id="eb-deposit-input"/><div style="font-size:11px;color:var(--g400);margin-top:4px" id="eb-deposit-hint">Deposit is fixed at 25% of the product price</div></div><div style="margin-bottom:10px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:4px;display:block">Repayment Days *</label><select class="inp" id="eb-days" onchange="calcEasyBuyDeposit()"><option value="30">30 days</option><option value="60">60 days</option><option value="90">90 days</option><option value="120">120 days</option></select></div><div id="eb-calc-preview" style="display:none;background:#fff;border-radius:9px;padding:12px"><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div style="background:#f0fdf4;border-radius:8px;padding:9px"><div style="font-size:10px;color:var(--g500);margin-bottom:3px">YOUR DEPOSIT</div><div style="font-weight:800;font-size:15px;color:#15803d" id="eb-calc-deposit">-</div></div><div style="background:#fff8f0;border-radius:8px;padding:9px"><div style="font-size:10px;color:var(--g500);margin-bottom:3px">BALANCE TO REPAY</div><div style="font-weight:800;font-size:15px;color:#b45309" id="eb-calc-balance">-</div></div><div style="background:#eff6ff;border-radius:8px;padding:9px"><div style="font-size:10px;color:var(--g500);margin-bottom:3px">DAILY DEDUCTION</div><div style="font-weight:800;font-size:15px;color:#1d4ed8" id="eb-calc-daily">-</div></div><div style="background:#f8fafc;border-radius:8px;padding:9px"><div style="font-size:10px;color:var(--g500);margin-bottom:3px">REPAYMENT DAYS</div><div style="font-weight:800;font-size:15px;color:var(--g700)" id="eb-calc-days">-</div></div></div><div id="eb-deposit-warning" style="display:none;margin-top:10px;padding:9px;background:#fef3c7;border-radius:8px;font-size:12px;color:#92400e;font-weight:600"></div></div></div><!-- SECTION 1: Personal Information --><div style="font-size:13px;font-weight:800;color:var(--black);margin-bottom:12px;padding:10px 14px;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-radius:10px;border-left:4px solid var(--green)">
 &#128100; Personal Information</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px"><div><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">Surname *</label><input class="inp" id="eb-surname" placeholder="e.g. Adeleke"/></div><div><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">First Name *</label><input class="inp" id="eb-firstname" placeholder="e.g. Emmanuel"/></div></div><div style="margin-bottom:10px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">Other Name <span style="font-weight:400;color:var(--g400)">(optional)</span></label><input class="inp" id="eb-othername" placeholder="Middle name or other name"/></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px"><div><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">Phone Number 1 *</label><input class="inp" type="tel" id="eb-phone1" placeholder="080XXXXXXXX"/></div><div><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">Phone Number 2 *</label><input class="inp" type="tel" id="eb-phone2" placeholder="080XXXXXXXX"/></div></div><div style="margin-bottom:10px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">Date of Birth *</label><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px"><select class="inp" id="eb-dob-day" onchange="ebUpdateDob()"><option value="">Day</option><option value="01">1</option><option value="02">2</option><option value="03">3</option><option value="04">4</option><option value="05">5</option><option value="06">6</option><option value="07">7</option><option value="08">8</option><option value="09">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select><select class="inp" id="eb-dob-month" onchange="ebUpdateDob()"><option value="">Month</option><option value="01">January</option><option value="02">February</option><option value="03">March</option><option value="04">April</option><option value="05">May</option><option value="06">June</option><option value="07">July</option><option value="08">August</option><option value="09">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option></select><select class="inp" id="eb-dob-year" onchange="ebUpdateDob()"><option value="">Year</option><option value="2008">2008</option><option value="2007">2007</option><option value="2006">2006</option><option value="2005">2005</option><option value="2004">2004</option><option value="2003">2003</option><option value="2002">2002</option><option value="2001">2001</option><option value="2000">2000</option><option value="1999">1999</option><option value="1998">1998</option><option value="1997">1997</option><option value="1996">1996</option><option value="1995">1995</option><option value="1994">1994</option><option value="1993">1993</option><option value="1992">1992</option><option value="1991">1991</option><option value="1990">1990</option><option value="1989">1989</option><option value="1988">1988</option><option value="1987">1987</option><option value="1986">1986</option><option value="1985">1985</option><option value="1984">1984</option><option value="1983">1983</option><option value="1982">1982</option><option value="1981">1981</option><option value="1980">1980</option><option value="1979">1979</option><option value="1978">1978</option><option value="1977">1977</option><option value="1976">1976</option><option value="1975">1975</option><option value="1974">1974</option><option value="1973">1973</option><option value="1972">1972</option><option value="1971">1971</option><option value="1970">1970</option><option value="1969">1969</option><option value="1968">1968</option><option value="1967">1967</option><option value="1966">1966</option><option value="1965">1965</option><option value="1964">1964</option><option value="1963">1963</option><option value="1962">1962</option><option value="1961">1961</option><option value="1960">1960</option><option value="1959">1959</option><option value="1958">1958</option><option value="1957">1957</option><option value="1956">1956</option><option value="1955">1955</option><option value="1954">1954</option><option value="1953">1953</option><option value="1952">1952</option><option value="1951">1951</option><option value="1950">1950</option><option value="1949">1949</option><option value="1948">1948</option><option value="1947">1947</option><option value="1946">1946</option><option value="1945">1945</option></select></div><input type="hidden" id="eb-dob"/></div><div style="margin-bottom:14px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:8px;display:block">Gender *</label><div style="display:flex;gap:8px"><label style="flex:1;display:flex;align-items:center;gap:8px;padding:10px 12px;border:1.5px solid var(--g200);border-radius:10px;cursor:pointer;font-size:13px;font-weight:500" id="eb-gen-m-lbl"><input type="radio" name="eb-gender" value="Male" id="eb-gen-m" style="accent-color:var(--green)" onchange="ebGenderStyle()"/> Male</label><label style="flex:1;display:flex;align-items:center;gap:8px;padding:10px 12px;border:1.5px solid var(--g200);border-radius:10px;cursor:pointer;font-size:13px;font-weight:500" id="eb-gen-f-lbl"><input type="radio" name="eb-gender" value="Female" id="eb-gen-f" style="accent-color:var(--green)" onchange="ebGenderStyle()"/> Female</label><label style="flex:1;display:flex;align-items:center;gap:8px;padding:10px 12px;border:1.5px solid var(--g200);border-radius:10px;cursor:pointer;font-size:13px;font-weight:500" id="eb-gen-n-lbl"><input type="radio" name="eb-gender" value="Other" id="eb-gen-n" style="accent-color:var(--green)" onchange="ebGenderStyle()"/> Other</label></div></div><!-- SECTION 2: Address --><div style="font-size:13px;font-weight:800;color:var(--black);margin-bottom:12px;padding:10px 14px;background:linear-gradient(135deg,#fff7ed,#ffedd5);border-radius:10px;border-left:4px solid #ea580c">&#127968; Address</div><div style="margin-bottom:10px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">Home Address *</label>
 <input class="inp" id="eb-address" placeholder="Full home address with street and city"/></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px"><div><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">State *</label><input class="inp" id="eb-state" placeholder="e.g. Lagos"/></div><div><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">LGA *</label><input class="inp" id="eb-lga" placeholder="e.g. Ikeja"/></div></div><div style="margin-bottom:14px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">Office / Work Address *</label><input class="inp" id="eb-workaddr" placeholder="Office or business address"/></div><!-- SECTION 3: Product Details --><div style="font-size:13px;font-weight:800;color:var(--black);margin-bottom:12px;padding:10px 14px;background:linear-gradient(135deg,#fffbeb,#fef3c7);border-radius:10px;border-left:4px solid #f59e0b">&#128717; Product Details</div><div style="margin-bottom:10px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">Product Name *</label><input class="inp" id="eb-product-name" placeholder="e.g. Samsung Galaxy A35, HP Laptop 15"/></div><div style="margin-bottom:10px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">Pick Up Location *</label><select class="inp" id="eb-merchant"><option value="">Select pick up location</option><option value="No1 ibijoke street kudirat abiola way oregun ikeja lagos">No1 Ibijoke Street, Kudirat Abiola Way, Oregun, Ikeja, Lagos</option><option value="No1 odewale street Alausa ikeja lagos state">No1 Odewale Street, Alausa, Ikeja, Lagos State</option><option value="No5 odewale street Alausa ikeja lagos state">No5 Odewale Street, Alausa, Ikeja, Lagos State</option></select></div><div style="margin-bottom:14px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">Additional Note <span style="font-weight:400;color:var(--g400)">(optional)</span></label><textarea class="inp" id="eb-note" placeholder="Colour, size, specifications..."></textarea></div><div style="margin-bottom:14px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">Product Photo * <span style="font-weight:400;color:var(--g400)">(upload from phone gallery &mdash; picture of the product)</span></label><div style="border:2px dashed #fcd34d;border-radius:11px;padding:14px;text-align:center;cursor:pointer;background:#fffbeb" id="eb-product-pic-drop" onclick="document.getElementById('eb-product-pic').click()"><div id="eb-product-pic-preview"><div style="font-size:28px;margin-bottom:6px">&#128717;</div><div style="font-size:12px;color:var(--g400)">Tap to upload product picture</div><div style="font-size:11px;color:var(--g300);margin-top:3px">JPG, PNG &bull; Max 3MB</div></div></div><input type="file" id="eb-product-pic" accept="image/*" style="display:none" onchange="previewImg('eb-product-pic','eb-product-pic-preview','eb-product-pic-drop')"/></div><!-- SECTION 4: Your Documents --><div style="font-size:13px;font-weight:800;color:var(--black);margin-bottom:12px;padding:10px 14px;background:linear-gradient(135deg,#eff6ff,#dbeafe);border-radius:10px;border-left:4px solid #2563eb">&#128248; Your Documents (Mandatory)</div><div style="margin-bottom:12px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">Your Passport Photograph * <span style="font-weight:400;color:var(--g400)">(take selfie with front camera)</span></label><div style="border:2px dashed #d1d5db;border-radius:11px;padding:14px;text-align:center;cursor:pointer" id="eb-passport-drop" onclick="document.getElementById('eb-passport').click()"><div id="eb-passport-preview"><div style="font-size:28px;margin-bottom:6px">&#129331;</div><div style="font-size:12px;color:var(--g400)">Tap to upload your passport photo</div><div style="font-size:11px;color:var(--g300);margin-top:3px">JPG, PNG &bull; Max 3MB</div></div></div><input type="file" id="eb-passport" accept="image/*" style="display:none" onchange="previewImg('eb-passport','eb-passport-preview','eb-passport-drop')"/></div><div style="margin-bottom:14px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">Your Means of Identification *</label><select class="inp" id="eb-idtype" style="margin-bottom:8px"><option value="">Select ID type</option><option>National ID Card (NIN)</option><option>Voter's Card</option><option>International Passport</option><option>Driver's License</option></select><div style="border:2px dashed #d1d5db;border-radius:11px;padding:14px;text-align:center;cursor:pointer" id="eb-idimg-drop" onclick="document.getElementById('eb-idimg').click()"><div id="eb-idimg-preview"><div style="font-size:28px;margin-bottom:6px">&#129706;</div><div style="font-size:12px;color:var(--g400)">Tap to upload your ID document</div><div style="font-size:11px;color:var(--g300);margin-top:3px">JPG, PNG &bull; Max 3MB</div></div></div><input type="file" id="eb-idimg" accept="image/*,.pdf" style="display:none" onchange="previewImg('eb-idimg','eb-idimg-preview','eb-idimg-drop')"/></div><!-- SECTION 5: Guarantor --><div style="background:#faf5ff;border:1.5px solid #c4b5fd;border-radius:12px;padding:14px;margin-bottom:12px"><div style="font-size:13px;font-weight:700;color:#5b21b6;margin-bottom:12px">&#128100; Guarantor (Required)</div><div style="margin-bottom:9px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:4px;display:block">Full Name *</label><input class="inp" id="eb-g1name" placeholder="Full legal name"/></div><div style="margin-bottom:9px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:4px;display:block">Phone Number *</label><input class="inp" type="tel" id="eb-g1phone" placeholder="080XXXXXXXX"/></div><div style="margin-bottom:9px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:4px;display:block">Relationship *</label><select class="inp" id="eb-g1rel"><option value="">Select</option><option>Family Member</option><option>Friend</option><option>Colleague</option><option>Employer</option><option>Business Partner</option><option>Other</option></select></div><div style="margin-bottom:9px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:4px;display:block">Home Address *</label><input class="inp" id="eb-g1addr" placeholder="Guarantor home address"/></div><div style="margin-bottom:9px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:4px;display:block">Office Address *</label><input class="inp" id="eb-g1officeaddr" placeholder="Guarantor office/work address"/></div><div style="margin-bottom:9px">
-<label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:4px;display:block">Occupation *</label><input class="inp" id="eb-g1occupation" placeholder="e.g. Teacher, Engineer, Trader"/></div><div style="margin-bottom:9px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">Guarantor Passport Photo * <span style="font-weight:400;color:var(--g400)">(upload from phone gallery)</span></label><div style="border:2px dashed #c4b5fd;border-radius:11px;padding:12px;text-align:center;cursor:pointer;background:#faf5ff" id="eb-g1photo-drop" onclick="document.getElementById('eb-g1photo').click()"><div id="eb-g1photo-preview"><div style="font-size:24px;margin-bottom:4px">&#129331;</div><div style="font-size:12px;color:var(--g400)">Upload guarantor passport photo from gallery</div></div></div><input type="file" id="eb-g1photo" accept="image/*" style="display:none" onchange="previewImg('eb-g1photo','eb-g1photo-preview','eb-g1photo-drop')"/></div></div><!-- Documentation Fee Notice --><div style="background:#fef3c7;border:1.5px solid #fcd34d;border-radius:12px;padding:14px;margin-bottom:16px"><div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><div style="width:36px;height:36px;background:#f59e0b;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">&#128179;</div><div><div style="font-weight:800;font-size:14px;color:#78350f">Documentation Fee: NGN 1,500</div><div style="font-size:11px;color:#92400e;margin-top:2px">Deducted from your wallet on submission</div></div></div><p style="font-size:12px;color:#92400e;line-height:1.7">This non-refundable fee covers verification and documentation processing. Ensure your wallet has at least NGN 1,500 before submitting.</p><div style="margin-top:10px;background:#fff;border-radius:9px;padding:10px;display:flex;justify-content:space-between;align-items:center"><div style="font-size:12px;color:var(--g600)">Your wallet balance</div><div style="font-size:14px;font-weight:800;color:#15803d" id="eb-wallet-bal-show">-</div></div></div><!-- Agreement --><div style="margin-bottom:16px;display:flex;align-items:flex-start;gap:10px;padding:12px;background:#f8fafc;border-radius:11px"><input type="checkbox" id="eb-agree" style="margin-top:3px;accent-color:var(--green);width:18px;height:18px;flex-shrink:0"/><label for="eb-agree" style="font-size:12px;color:var(--g600);line-height:1.7;cursor:pointer">I confirm all information is accurate. I agree to EasyBuy terms including daily wallet deductions and guarantor obligations. I authorise Zmonie to deduct the documentation fee of <strong>NGN 1,500</strong> from my wallet immediately on submission.</label></div><button onclick="submitEasyBuyApp()" class="btn-g" style="width:100%;padding:14px;border-radius:12px;font-size:15px;font-weight:700">Submit EasyBuy Application</button><p style="font-size:11px;color:var(--g400);text-align:center;margin-top:10px">Application reviewed within 24-48 hours. You will be notified once approved.</p></div></div><!-- ======== EASYBUY PLAN DETAIL MODAL ======== --><div class="modal" id="m-easybuy-detail"><div class="mbox" id="eb-detail-body"></div></div><!-- ADMIN PAGE --><div id="pg-admin" class="page"><!-- Sidebar --><div class="aside" id="adminSidebar"><div style="padding:16px 14px 14px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:6px;display:flex;align-items:center;justify-content:space-between"><div style="display:flex;align-items:center;gap:9px"><div style="width:32px;height:32px;background:linear-gradient(135deg,#16a34a,#22c55e);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-weight:900;font-size:14px;color:#fff">Z</span></div><div><div style="font-weight:800;color:#fff;font-size:14px;letter-spacing:-.02em">ZMONIE</div><div style="font-size:10px;color:rgba(255,255,255,.3);font-weight:500">Admin Panel</div></div></div><!-- Close button &mdash; mobile only --><button onclick="closeAdminMenu()" style="background:rgba(255,255,255,.08);border:none;color:rgba(255,255,255,.5);width:28px;height:28px;border-radius:7px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0">&#10005;</button></div><nav style="padding:0 8px"><div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.25);padding:8px 6px 4px;text-transform:uppercase;letter-spacing:.8px">Main</div><div class="anav on" onclick="aTab('overview')">&#128202; Overview</div><div class="anav" onclick="aTab('users')">&#128101; Users</div><div class="anav" onclick="aTab('txs')">&#128179; Transactions</div><div class="anav" onclick="aTab('funding')">&#128176; Funding Requests</div><div class="anav" onclick="aTab('fund-accounts')">&#127974; Funding Accounts</div><div class="anav" onclick="aTab('withdrawals')">&#128184; Withdrawals</div><div class="anav" onclick="aTab('pins')">&#128274; PIN Requests</div><div class="anav" onclick="aTab('pw-reset')">&#128273; Password Resets</div><div class="anav" onclick="aTab('promos')">&#127919; Promo Slides</div><div class="anav" onclick="aTab('broadcast')">&#128226; Broadcast</div><div class="anav" onclick="aTab('wallet')">&#128091; Wallet Ops</div><div style="font-size:10px;font-weight:700;color:rgba(96,165,250,.35);padding:10px 6px 4px;text-transform:uppercase;letter-spacing:.8px">Data &amp; API</div><div class="anav" onclick="aTab('data-plans')">&#128225; Data Plan Mgmt</div><div class="anav" onclick="aTab('api-mgmt')">&#128272; API Management</div><div class="anav fin-tab" onclick="aTab('vtpass')">&#9881; VTPass Settings</div><div style="font-size:10px;font-weight:700;color:rgba(167,139,250,.35);padding:10px 6px 4px;text-transform:uppercase;letter-spacing:.8px">Finance</div><div class="anav fin-tab" onclick="aTab('fin-loans')">&#127974; Loan Requests</div><div class="anav fin-tab" onclick="aTab('fin-investments')">&#128200; Investments</div><div class="anav fin-tab" onclick="aTab('fin-analytics')">&#128202; Fin Analytics</div><div style="font-size:10px;font-weight:700;color:rgba(74,222,128,.3);padding:10px 6px 4px;text-transform:uppercase;letter-spacing:.8px">Payments &amp; Rewards</div><div class="anav" onclick="aTab('easybuy')">&#128717; EasyBuy</div><div class="anav" onclick="aTab('airtime-cash')">&#128176; Airtime to Cash</div><div class="anav" onclick="aTab('kyc')">&#128273; KYC Requests</div><div class="anav" onclick="aTab('disputes')">&#128681; Disputes</div><div class="anav" onclick="aTab('support-tickets')">&#128172; Support Tickets</div><div class="anav" onclick="aTab('paystack')">&#128179; Paystack Settings</div><div class="anav" onclick="aTab('flutterwave')">&#127903; Flutterwave Settings</div><div class="anav" onclick="aTab('rewards-settings')">&#127873; Rewards Settings</div><div class="anav" onclick="aTab('rewards-history')">&#128202; Rewards History</div><div class="anav" onclick="aTab('virtual-cards')">&#128179; Virtual Cards</div><div class="anav" onclick="aTab('bulk-wallet')">&#128091; Bulk Wallet Ops</div><div class="anav" onclick="aTab('revenue-chart')">&#128202; Revenue Charts</div><div style="font-size:10px;font-weight:700;color:rgba(147,197,253,.3);padding:10px 6px 4px;text-transform:uppercase;letter-spacing:.8px">Administration</div><div class="anav" onclick="aTab('sub-admins')" style="color:rgba(147,197,253,.8)">&#128101; Sub-Admins</div><div style="font-size:10px;font-weight:700;color:rgba(52,211,153,.3);padding:10px 6px 4px;text-transform:uppercase;letter-spacing:.8px">Savings</div><div class="anav" onclick="aTab('savings')">&#128184; Savings Module</div><div class="anav" onclick="aTab('contributions')">&#128197; Contributions</div><div style="font-size:10px;font-weight:700;color:rgba(147,197,253,.3);padding:10px 6px 4px;text-transform:uppercase;letter-spacing:.8px">Security</div>
+<label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:4px;display:block">Occupation *</label><input class="inp" id="eb-g1occupation" placeholder="e.g. Teacher, Engineer, Trader"/></div><div style="margin-bottom:9px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">Guarantor Passport Photo * <span style="font-weight:400;color:var(--g400)">(upload from phone gallery)</span></label><div style="border:2px dashed #c4b5fd;border-radius:11px;padding:12px;text-align:center;cursor:pointer;background:#faf5ff" id="eb-g1photo-drop" onclick="document.getElementById('eb-g1photo').click()"><div id="eb-g1photo-preview"><div style="font-size:24px;margin-bottom:4px">&#129331;</div><div style="font-size:12px;color:var(--g400)">Upload guarantor passport photo from gallery</div></div></div><input type="file" id="eb-g1photo" accept="image/*" style="display:none" onchange="previewImg('eb-g1photo','eb-g1photo-preview','eb-g1photo-drop')"/></div></div><!-- Documentation Fee Notice --><div style="background:#fef3c7;border:1.5px solid #fcd34d;border-radius:12px;padding:14px;margin-bottom:16px"><div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><div style="width:36px;height:36px;background:#f59e0b;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">&#128179;</div><div><div style="font-weight:800;font-size:14px;color:#78350f">Documentation Fee: NGN 1,500</div><div style="font-size:11px;color:#92400e;margin-top:2px">Deducted from your wallet on submission</div></div></div><p style="font-size:12px;color:#92400e;line-height:1.7">This non-refundable fee covers verification and documentation processing. Ensure your wallet has at least NGN 1,500 before submitting.</p><div style="margin-top:10px;background:#fff;border-radius:9px;padding:10px;display:flex;justify-content:space-between;align-items:center"><div style="font-size:12px;color:var(--g600)">Your wallet balance</div><div style="font-size:14px;font-weight:800;color:#15803d" id="eb-wallet-bal-show">-</div></div></div><!-- Agreement --><div style="margin-bottom:16px;display:flex;align-items:flex-start;gap:10px;padding:12px;background:#f8fafc;border-radius:11px"><input type="checkbox" id="eb-agree" style="margin-top:3px;accent-color:var(--green);width:18px;height:18px;flex-shrink:0"/><label for="eb-agree" style="font-size:12px;color:var(--g600);line-height:1.7;cursor:pointer">I confirm all information is accurate. I agree to EasyBuy terms including daily wallet deductions and guarantor obligations. I authorise Zmonie to deduct the documentation fee of <strong>NGN 1,500</strong> from my wallet immediately on submission.</label></div><button onclick="submitEasyBuyApp()" class="btn-g" style="width:100%;padding:14px;border-radius:12px;font-size:15px;font-weight:700">Submit EasyBuy Application</button><p style="font-size:11px;color:var(--g400);text-align:center;margin-top:10px">Application reviewed within 24-48 hours. You will be notified once approved.</p></div></div><!-- ======== EASYBUY PLAN DETAIL MODAL ======== --><div class="modal" id="m-easybuy-detail"><div class="mbox" id="eb-detail-body"></div></div><!-- ADMIN PAGE --><div id="pg-admin" class="page"><!-- Sidebar --><div class="aside" id="adminSidebar"><div style="padding:16px 14px 14px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:6px;display:flex;align-items:center;justify-content:space-between"><div style="display:flex;align-items:center;gap:9px"><div style="width:32px;height:32px;background:linear-gradient(135deg,#16a34a,#22c55e);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-weight:900;font-size:14px;color:#fff">Z</span></div><div><div style="font-weight:800;color:#fff;font-size:14px;letter-spacing:-.02em">ZMONIE</div><div style="font-size:10px;color:rgba(255,255,255,.3);font-weight:500">Admin Panel</div></div></div><!-- Close button &mdash; mobile only --><button onclick="closeAdminMenu()" style="background:rgba(255,255,255,.08);border:none;color:rgba(255,255,255,.5);width:28px;height:28px;border-radius:7px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0">&#10005;</button></div><nav style="padding:0 8px"><div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.25);padding:8px 6px 4px;text-transform:uppercase;letter-spacing:.8px">Main</div><div class="anav on" onclick="aTab('overview')">&#128202; Overview</div><div class="anav" onclick="aTab('users')">&#128101; Users</div><div class="anav" onclick="aTab('txs')">&#128179; Transactions</div><div class="anav" onclick="aTab('funding')">&#128176; Funding Requests</div><div class="anav" onclick="aTab('fund-accounts')">&#127974; Funding Accounts</div><div class="anav" onclick="aTab('withdrawals')">&#128184; Withdrawals</div><div class="anav" onclick="aTab('pins')">&#128274; PIN Requests</div><div class="anav" onclick="aTab('pw-reset')">&#128273; Password Resets</div><div class="anav" onclick="aTab('promos')">&#127919; Promo Slides</div><div class="anav" onclick="aTab('broadcast')">&#128226; Broadcast</div><div class="anav" onclick="aTab('wallet')">&#128091; Wallet Ops</div><div style="font-size:10px;font-weight:700;color:rgba(96,165,250,.35);padding:10px 6px 4px;text-transform:uppercase;letter-spacing:.8px">Data &amp; API</div><div class="anav" onclick="aTab('data-plans')">&#128225; Data Plan Mgmt</div><div class="anav" onclick="aTab('api-mgmt')">&#128272; API Management</div><div class="anav fin-tab" onclick="aTab('vtpass')">&#9881; VTPass Settings</div><div style="font-size:10px;font-weight:700;color:rgba(167,139,250,.35);padding:10px 6px 4px;text-transform:uppercase;letter-spacing:.8px">Finance</div><div class="anav fin-tab" onclick="aTab('fin-loans')">&#127974; Loan Requests</div><div class="anav fin-tab" onclick="aTab('fin-investments')">&#128200; Investments</div><div class="anav fin-tab" onclick="aTab('fin-analytics')">&#128202; Fin Analytics</div><div style="font-size:10px;font-weight:700;color:rgba(74,222,128,.3);padding:10px 6px 4px;text-transform:uppercase;letter-spacing:.8px">Payments &amp; Rewards</div><div class="anav" onclick="aTab('easybuy')">&#128717; EasyBuy</div><div class="anav" onclick="aTab('airtime-cash')">&#128176; Airtime to Cash</div><div class="anav" onclick="aTab('kyc')">&#128273; KYC Requests</div><div class="anav" onclick="aTab('disputes')">&#128681; Disputes</div><div class="anav" onclick="aTab('support-tickets')">&#128172; Support Tickets</div><div class="anav" onclick="aTab('paystack')">&#128179; Paystack Settings</div><div class="anav" onclick="aTab('rewards-settings')">&#127873; Rewards Settings</div><div class="anav" onclick="aTab('rewards-history')">&#128202; Rewards History</div><div class="anav" onclick="aTab('virtual-cards')">&#128179; Virtual Cards</div><div class="anav" onclick="aTab('bulk-wallet')">&#128091; Bulk Wallet Ops</div><div class="anav" onclick="aTab('revenue-chart')">&#128202; Revenue Charts</div><div style="font-size:10px;font-weight:700;color:rgba(147,197,253,.3);padding:10px 6px 4px;text-transform:uppercase;letter-spacing:.8px">Administration</div><div class="anav" onclick="aTab('sub-admins')" style="color:rgba(147,197,253,.8)">&#128101; Sub-Admins</div><div style="font-size:10px;font-weight:700;color:rgba(52,211,153,.3);padding:10px 6px 4px;text-transform:uppercase;letter-spacing:.8px">Savings</div><div class="anav" onclick="aTab('savings')">&#128184; Savings Module</div><div class="anav" onclick="aTab('contributions')">&#128197; Contributions</div><div style="font-size:10px;font-weight:700;color:rgba(147,197,253,.3);padding:10px 6px 4px;text-transform:uppercase;letter-spacing:.8px">Security</div>
 <div class="anav" id="super-admin-pin-nav" onclick="changeAdminPin()" style="color:rgba(147,197,253,.8);background:rgba(37,99,235,.1)">&#128274; Change Admin PIN</div><div class="anav" onclick="aTab('recaptcha-settings')" style="color:rgba(147,197,253,.8)">&#129302; reCAPTCHA Settings</div></nav><div style="margin-top:auto;padding:12px 10px 20px"><div style="background:rgba(37,99,235,.18);border:1.5px solid rgba(37,99,235,.4);border-radius:10px;padding:12px;margin-bottom:8px"><div style="font-size:11px;font-weight:800;color:#93c5fd;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">&#128274; Admin Security PIN</div><button onclick="changeAdminPin()" style="width:100%;padding:10px;border-radius:8px;background:rgba(37,99,235,.3);border:1px solid rgba(37,99,235,.5);color:#bfdbfe;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif">&#128274; Change Security PIN</button></div><button onclick="doLogout()" style="width:100%;padding:10px;border-radius:9px;background:rgba(220,38,38,.12);border:1px solid rgba(220,38,38,.2);color:#f87171;font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif">&#128682; Sign Out</button></div></div><!-- Overlay (mobile backdrop) --><div class="overlay" id="adminOverlay" onclick="closeAdminMenu()"></div><!-- Main content area --><div class="amain"><!-- Top bar --><div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;position:sticky;top:0;background:var(--bg);z-index:10;padding:4px 0 10px;border-bottom:1px solid var(--g100)"><button class="hamb" onclick="openAdminMenu()" title="Menu" aria-label="Open menu"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button><h1 style="font-size:18px;font-weight:800;letter-spacing:-.02em;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" id="a-title">Overview</h1><button onclick="doLogout()" style="padding:7px 13px;background:#fef2f2;border:1px solid #fecaca;color:#dc2626;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;flex-shrink:0">Logout</button></div><!-- Scrollable quick-tab bar --><div class="admin-tabbar" id="admin-tabbar"><button onclick="aTab('overview')" data-tab="overview" style="padding:7px 14px;border-radius:50px;border:none;background:var(--green);color:#fff;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif">&#128202; Overview</button><button onclick="aTab('users')" data-tab="users" style="padding:7px 14px;border-radius:50px;border:1.5px solid var(--g200);background:#fff;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif">&#128101; Users</button><button onclick="aTab('txs')" data-tab="txs" style="padding:7px 14px;border-radius:50px;border:1.5px solid var(--g200);background:#fff;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif">&#128179; Transactions</button><button onclick="aTab('funding')" data-tab="funding" style="padding:7px 14px;border-radius:50px;border:1.5px solid var(--g200);background:#fff;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif">&#128176; Funding</button><button onclick="aTab('fund-accounts')" data-tab="fund-accounts" style="padding:7px 14px;border-radius:50px;border:1.5px solid #86efac;background:#f0fdf4;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;color:#15803d">&#127974; Accounts</button><button onclick="aTab('withdrawals')" data-tab="withdrawals" style="padding:7px 14px;border-radius:50px;border:1.5px solid #fce7f3;background:#fdf2f8;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;color:#9d174d">&#128184; Withdrawals</button><button onclick="aTab('pins')" data-tab="pins" style="padding:7px 14px;border-radius:50px;border:1.5px solid var(--g200);background:#fff;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif">&#128274; PINs</button><button onclick="aTab('pw-reset')" data-tab="pw-reset" style="padding:7px 14px;border-radius:50px;border:1.5px solid #fca5a5;background:#fef2f2;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;color:#dc2626">&#128273; PW Resets</button><button onclick="aTab('data-plans')" data-tab="data-plans" style="padding:7px 14px;border-radius:50px;border:1.5px solid #bfdbfe;background:#eff6ff;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;color:#1d4ed8">&#128225; Data Plans</button><button onclick="aTab('api-mgmt')" data-tab="api-mgmt" style="padding:7px 14px;border-radius:50px;border:1.5px solid #c4b5fd;background:#f5f3ff;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;color:#7c3aed">&#128272; API Mgmt</button><button onclick="aTab('promos')" data-tab="promos" style="padding:7px 14px;border-radius:50px;border:1.5px solid var(--g200);background:#fff;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif">&#127919; Promos</button><button onclick="aTab('broadcast')" data-tab="broadcast" style="padding:7px 14px;border-radius:50px;border:1.5px solid var(--g200);background:#fff;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif">&#128226; Broadcast</button><button onclick="aTab('wallet')" data-tab="wallet" style="padding:7px 14px;border-radius:50px;border:1.5px solid var(--g200);background:#fff;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif">&#128091; Wallet</button><button onclick="aTab('fin-loans')" data-tab="fin-loans" style="padding:7px 14px;border-radius:50px;border:1.5px solid #c4b5fd;background:#faf5ff;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;color:#6d28d9">&#127974; Loans</button><button onclick="aTab('fin-investments')" data-tab="fin-investments" style="padding:7px 14px;border-radius:50px;border:1.5px solid #c4b5fd;background:#faf5ff;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;color:#6d28d9">&#128200; Investments</button><button onclick="aTab('fin-analytics')" data-tab="fin-analytics" style="padding:7px 14px;border-radius:50px;border:1.5px solid #c4b5fd;background:#faf5ff;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;color:#6d28d9">&#128202; Fin Stats</button><button onclick="aTab('revenue')" data-tab="revenue" style="padding:7px 14px;border-radius:50px;border:1.5px solid #fcd34d;background:#fffbeb;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;color:#92400e">&#128176; Revenue</button><button onclick="aTab('airtime-cash')" data-tab="airtime-cash" style="padding:7px 14px;border-radius:50px;border:1.5px solid #fcd34d;background:#fffbeb;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;color:#92400e">&#128176; Airtime Cash</button><button onclick="aTab('kyc')" data-tab="kyc" style="padding:7px 14px;border-radius:50px;border:1.5px solid #c4b5fd;background:#faf5ff;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;color:#7c3aed">&#128273; KYC</button><button onclick="aTab('disputes')" data-tab="disputes" style="padding:7px 14px;border-radius:50px;border:1.5px solid #fecaca;background:#fef2f2;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;color:#dc2626">&#128681; Disputes</button><button onclick="aTab('support-tickets')" data-tab="support-tickets" style="padding:7px 14px;border-radius:50px;border:1.5px solid #fed7aa;background:#fff7ed;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;color:#c2410c">&#128172; Support</button><button onclick="aTab('vtpass')" data-tab="vtpass" style="padding:7px 14px;border-radius:50px;border:1.5px solid #c4b5fd;background:#faf5ff;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;color:#6d28d9">&#9881; VTPass</button>
 <button onclick="aTab('easybuy')" data-tab="easybuy" style="padding:7px 14px;border-radius:50px;border:1.5px solid #fcd34d;background:#fffbeb;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;color:#92400e">&#128717; EasyBuy</button><button onclick="aTab('paystack')" data-tab="paystack" style="padding:7px 14px;border-radius:50px;border:1.5px solid #60a5fa;background:#eff6ff;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;color:#1d4ed8">&#128179; Paystack</button><button onclick="aTab('rewards-settings')" data-tab="rewards-settings" style="padding:7px 14px;border-radius:50px;border:1.5px solid #86efac;background:#f0fdf4;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;color:#15803d">&#127873; Rewards</button><button onclick="aTab('savings')" data-tab="savings" style="padding:7px 14px;border-radius:50px;border:1.5px solid #6ee7b7;background:#ecfdf5;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;color:#059669">&#128184; Savings</button><button onclick="aTab('virtual-cards')" data-tab="virtual-cards" style="padding:7px 14px;border-radius:50px;border:1.5px solid #c4b5fd;background:#faf5ff;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;color:#7c3aed">&#128179; V-Cards</button><button onclick="aTab('bulk-wallet')" data-tab="bulk-wallet" style="padding:7px 14px;border-radius:50px;border:1.5px solid #86efac;background:#f0fdf4;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;color:#15803d">&#128091; Bulk Ops</button><button onclick="aTab('revenue-chart')" data-tab="revenue-chart" style="padding:7px 14px;border-radius:50px;border:1.5px solid #fcd34d;background:#fffbeb;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;color:#92400e">&#128202; Rev Charts</button><button id="super-admin-pin-tab" onclick="changeAdminPin()" style="padding:7px 14px;border-radius:50px;border:1.5px solid #93c5fd;background:#eff6ff;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;color:#1d4ed8">&#128274; Security PIN</button></div><div id="a-content"></div></div></div><!-- MODALS --><div class="modal" id="m-fund"><div class="mbox" style="max-height:92vh;overflow-y:auto"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;position:sticky;top:0;background:#fff;padding-bottom:10px;border-bottom:1px solid #f1f5f9;z-index:1"><div><h3 style="font-size:17px;font-weight:700">&#128176; Fund Wallet</h3><p style="font-size:11px;color:var(--g400);margin-top:2px">Choose how to add money</p></div><button onclick="closeM('m-fund')" style="background:var(--g100);border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;color:var(--g600);flex-shrink:0">&#10005;</button></div>
 
 <!-- ===== PAYSTACK SECTION ===== -->
 <div id="ps-fund-section" style="display:none;margin-bottom:16px"><div style="background:linear-gradient(135deg,#4f46e5,#6366f1);border-radius:14px;padding:16px;margin-bottom:12px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:12px"><span style="font-size:11px;font-weight:800;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.5px">&#9889; Pay Instantly</span></div><label style="font-size:11px;font-weight:600;color:rgba(255,255,255,.7);margin-bottom:6px;display:block">Amount to Fund (NGN)</label><input class="inp" type="number" id="ps-fund-amt" placeholder="e.g. 5000" min="100" style="font-size:22px;font-weight:800;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;margin-bottom:12px" oninput="updatePsPreview(this.value)"/><div id="ps-fund-preview" style="font-size:11px;color:rgba(255,255,255,.55);margin-bottom:12px;min-height:14px"></div><button onclick="doPaystackFund()" id="ps-pay-btn" style="width:100%;padding:14px;background:#fff;color:#4f46e5;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;font-family:Inter,sans-serif;display:flex;align-items:center;justify-content:center;gap:10px"><svg width="20" height="14" viewBox="0 0 20 14" fill="none"><rect width="20" height="14" rx="3" fill="#4f46e5" fill-opacity=".15"/><rect y="4" width="20" height="3" fill="#4f46e5" fill-opacity=".4"/></svg>Pay with Card / Bank Transfer</button><div style="text-align:center;margin-top:8px"><span onclick="openVerifyPaystackModal()" style="font-size:11px;color:rgba(255,255,255,.75);text-decoration:underline;cursor:pointer">Already paid but not credited? Verify a Payment</span></div><div style="font-size:10px;color:rgba(255,255,255,.4);text-align:center;margin-top:8px">Powered by Paystack &middot; Instant credit &middot; Secured &#128274;</div></div></div>
-<!-- ===== FLUTTERWAVE SECTION ===== -->
-<div id="fw-fund-section" style="display:none;margin-bottom:16px"><div style="background:linear-gradient(135deg,#f5a623,#f7931e);border-radius:14px;padding:16px;margin-bottom:12px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:12px"><span style="font-size:11px;font-weight:800;color:rgba(0,0,0,.55);text-transform:uppercase;letter-spacing:.5px">&#9889; Pay Instantly</span><span id="fw-mode-badge" style="display:none;font-size:9px;font-weight:800;background:rgba(0,0,0,.15);color:#fff;padding:2px 7px;border-radius:20px">TEST MODE</span></div><label style="font-size:11px;font-weight:600;color:rgba(0,0,0,.55);margin-bottom:6px;display:block">Amount to Fund (NGN)</label><input class="inp" type="number" id="fw-fund-amt" placeholder="e.g. 5000" min="100" style="font-size:22px;font-weight:800;background:rgba(255,255,255,.35);border:1px solid rgba(0,0,0,.15);color:#1a1a1a;margin-bottom:12px"/><button onclick="doFlutterwaveFund()" id="fw-pay-btn" style="width:100%;padding:14px;background:#fff;color:#f5730c;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;font-family:Inter,sans-serif;display:flex;align-items:center;justify-content:center;gap:10px">&#128179; Pay with Flutterwave</button><div style="font-size:10px;color:rgba(0,0,0,.45);text-align:center;margin-top:8px">Powered by Flutterwave &middot; Verified on our server &middot; Secured &#128274;</div></div></div>
+<!-- ===== PAYSTACK DEDICATED ACCOUNT SECTION ===== -->
+<div id="dva-fund-section" style="display:none;margin-bottom:16px"><div style="background:linear-gradient(135deg,#0f766e,#0d9488);border-radius:14px;padding:16px;margin-bottom:12px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:12px"><span style="font-size:11px;font-weight:800;color:rgba(255,255,255,.75);text-transform:uppercase;letter-spacing:.5px">&#127974; Your Dedicated Account</span></div><div id="dva-loading" style="text-align:center;padding:10px;color:rgba(255,255,255,.7);font-size:12px">Loading your account details...</div><div id="dva-none" style="display:none"><p style="font-size:12px;color:rgba(255,255,255,.85);margin-bottom:12px;line-height:1.6">Get a permanent bank account number in your name. Any transfer to it credits your wallet automatically &mdash; no forms, no waiting.</p><button onclick="createPaystackDedicatedAccount()" id="dva-create-btn" style="width:100%;padding:14px;background:#fff;color:#0d9488;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;font-family:Inter,sans-serif">+ Get My Account Number</button></div><div id="dva-active" style="display:none"><div style="background:rgba(255,255,255,.15);border-radius:12px;padding:14px;margin-bottom:10px"><div style="font-size:10px;color:rgba(255,255,255,.6);text-transform:uppercase;margin-bottom:3px">Bank Name</div><div style="font-size:14px;font-weight:800;color:#fff;margin-bottom:10px" id="dva-bank-name">&mdash;</div><div style="font-size:10px;color:rgba(255,255,255,.6);text-transform:uppercase;margin-bottom:3px">Account Number</div><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><div style="font-size:20px;font-weight:900;color:#fff;letter-spacing:1px" id="dva-acct-num">&mdash;</div><button onclick="copyDvaAccount()" style="background:rgba(255,255,255,.2);border:none;color:#fff;padding:5px 10px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif">Copy</button></div><div style="font-size:10px;color:rgba(255,255,255,.6);text-transform:uppercase;margin-bottom:3px">Account Name</div><div style="font-size:13px;font-weight:700;color:#fff" id="dva-acct-name">&mdash;</div></div><button onclick="checkDedicatedAccountPayments(true)" id="dva-check-btn" style="width:100%;padding:12px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:11px;font-size:13px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;margin-bottom:6px">&#128260; I just paid &mdash; Check Now</button><div style="font-size:10px;color:rgba(255,255,255,.55);text-align:center">Transfers are credited automatically &middot; Powered by Paystack &#128274;</div></div></div></div>
 
 <!-- ===== DIVIDER ===== -->
 <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px"><div style="height:1px;flex:1;background:#e2e8f0"></div><span style="font-size:11px;font-weight:700;color:var(--g400);white-space:nowrap">OR BANK TRANSFER</span><div style="height:1px;flex:1;background:#e2e8f0"></div></div>
@@ -1025,7 +1025,6 @@ refreshAllCurrencyDisplays();
 function fdate(ts){if(!ts)return'&mdash;';const d=ts.toDate?ts.toDate():new Date(ts);return d.toLocaleDateString('en-NG',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});}
 auth.onAuthStateChanged(async u=>{
 loadRecaptchaConfig();
-loadFlutterwaveConfig();
 if(window._isPasswordResetFlow) return;
 if(window._isRegistering) return; // doReg handles navigation and data load itself
 var BUILTIN_SUBADMIN={
@@ -3067,7 +3066,7 @@ b.style.fontWeight=isActive?'700':'600';
 });
 var activeBtn=document.querySelector('#admin-tabbar button[data-tab="'+tab+'"]');
 if(activeBtn)activeBtn.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
-document.getElementById('a-title').textContent={overview:'Overview',users:'Users',txs:'Transactions',funding:'Funding Requests',pins:'PIN Requests',promos:'Promo Slides',broadcast:'Broadcast',wallet:'Wallet Operations',vtpass:'VTPass API',recovery:'Loan Recovery',['fin-nok']:'Next of Kin Verification',['fund-accounts']:'Funding Accounts',['data-plans']:'Data Plan Management',['pw-reset']:'Password Reset Requests',['api-mgmt']:'API Management',['api-docs']:'API Documentation',easybuy:'EasyBuy Management',paystack:'Paystack Payment Settings',flutterwave:'Flutterwave Payment Settings',withdrawals:'Withdrawals',['fin-loans']:'Loan Requests',['fin-investments']:'Investments',['fin-analytics']:'Financial Analytics',['revenue']:'Revenue Report',['airtime-cash']:'Airtime to Cash Requests',['rewards-settings']:'Rewards Settings',['rewards-history']:'Rewards History',contributions:'Contribution Module'}[tab]||tab;
+document.getElementById('a-title').textContent={overview:'Overview',users:'Users',txs:'Transactions',funding:'Funding Requests',pins:'PIN Requests',promos:'Promo Slides',broadcast:'Broadcast',wallet:'Wallet Operations',vtpass:'VTPass API',recovery:'Loan Recovery',['fin-nok']:'Next of Kin Verification',['fund-accounts']:'Funding Accounts',['data-plans']:'Data Plan Management',['pw-reset']:'Password Reset Requests',['api-mgmt']:'API Management',['api-docs']:'API Documentation',easybuy:'EasyBuy Management',paystack:'Paystack Payment Settings',withdrawals:'Withdrawals',['fin-loans']:'Loan Requests',['fin-investments']:'Investments',['fin-analytics']:'Financial Analytics',['revenue']:'Revenue Report',['airtime-cash']:'Airtime to Cash Requests',['rewards-settings']:'Rewards Settings',['rewards-history']:'Rewards History',contributions:'Contribution Module'}[tab]||tab;
 if(window.innerWidth<=768)closeAdminMenu();
 const el=document.getElementById('a-content');
 const rev=AD.txs.reduce((s,t)=>s+(t.amount||0),0);
@@ -3141,7 +3140,6 @@ if(tab==='broadcast')el.innerHTML=`<div class="card" style="padding:18px;max-wid
 if(tab==='wallet')el.innerHTML=`<div class="card" style="padding:18px;max-width:440px"><h3 style="font-weight:700;margin-bottom:13px;font-size:15px">Credit or Debit Wallet</h3><div style="margin-bottom:11px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">User Email</label><input class="inp" id="aw-e" placeholder="user@example.com"/></div><div style="margin-bottom:11px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">Amount (NGN)</label><input class="inp" type="number" id="aw-a" placeholder="1000"/></div><div style="margin-bottom:11px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">Operation</label><select class="inp" id="aw-o"><option value="credit">Credit (Add funds)</option><option value="debit">Debit (Remove funds)</option></select></div><div style="margin-bottom:16px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">Note (shown to user)</label><input class="inp" id="aw-n" placeholder="Payment confirmed"/></div><button onclick="doWop()" class="btn-g" style="width:100%;padding:12px;border-radius:10px;font-size:14px">Process</button></div>`;
 if(tab==='easybuy'){loadAdminEasyBuy(el);}
 if(tab==='paystack'){loadPaystackSettings(el);}
-if(tab==='flutterwave'){loadAdminFlutterwaveSettings(el);}
 if(tab==='sub-admins'){
 el.innerHTML='<div style="padding:20px;text-align:center;color:var(--g400)">&#9203; Loading...</div>';
 loadSubAdminPanel(el);
@@ -4782,131 +4780,131 @@ loadAdminRecaptchaSettings(document.getElementById('a-content'));
 }
 
 // ============================================================
-// ADMIN: FLUTTERWAVE SETTINGS
-// Same locked-document pattern as reCAPTCHA: Secret Key,
-// Encryption Key, and Webhook Secret Hash go into a Firestore
-// document with NO read access for anyone (see firestore.rules
-// snippet). Only the Cloud Function's Admin SDK can read them.
+// PAYSTACK: DEDICATED VIRTUAL ACCOUNT (auto-credit bank transfer)
+// Uses the same Paystack secret key already stored in
+// settings/paystack (client-side, matching this app's existing
+// Paystack integration pattern). Each user gets one permanent
+// NUBAN account number; transfers into it are picked up here
+// whenever the user opens Fund Wallet/Dashboard, or via the
+// optional paystackWebhook Cloud Function for instant, app-closed
+// crediting (see functions/index.js notes in Admin > Paystack).
 // ============================================================
-function _fwUrls(){
-const projectId=(typeof fbCfg!=='undefined'&&fbCfg.projectId)||'';
-const base=projectId?`https://us-central1-${projectId}.cloudfunctions.net`:'';
-return{
-webhookUrl:base?`${base}/flutterwaveWebhook`:'(deploy functions to generate)',
-callbackUrl:base?`${base}/flutterwaveCallback`:'(deploy functions to generate)'
-};
-}
-async function loadAdminFlutterwaveSettings(el){
-if(!isSuperAdmin()){el.innerHTML='<div class="card" style="padding:20px;color:#dc2626">Only the Super Admin can manage Flutterwave settings.</div>';return;}
-el.innerHTML='<div style="padding:20px;text-align:center;color:var(--g400)"><div style="font-size:24px">&#9203;</div><p style="font-size:13px">Loading...</p></div>';
+async function loadDvaSection(){
+if(!CU)return;
+const section=document.getElementById('dva-fund-section');
+if(!section)return;
 try{
-const snap=await db.collection('adminSettings').doc('flutterwaveStatus').get();
-const s=snap.exists?snap.data():{enabled:false,configured:false,mode:'test',publicKey:''};
-const urls=_fwUrls();
-el.innerHTML=`
-<div class="card" style="padding:16px;margin-bottom:14px">
-<h3 style="font-weight:700;margin-bottom:4px;font-size:15px">&#127903; Flutterwave Settings</h3>
-<p style="font-size:12px;color:var(--g400);margin-bottom:14px">The Public Key is safe to use in the browser for checkout. The Secret Key, Encryption Key, and Webhook Secret Hash are stored where nothing — including this admin panel after saving — can ever read them back. Verification always happens on the backend.</p>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px">
-<div style="background:${s.enabled?'#dcfce7':'#f1f5f9'};border-radius:10px;padding:10px;text-align:center">
-<div style="font-size:9px;color:var(--g500);text-transform:uppercase;margin-bottom:4px">Gateway</div>
-<div style="font-weight:800;font-size:12px;color:${s.enabled?'#15803d':'#64748b'}">${s.enabled?'ENABLED':'DISABLED'}</div>
-</div>
-<div style="background:${s.configured?'#dcfce7':'#fef3c7'};border-radius:10px;padding:10px;text-align:center">
-<div style="font-size:9px;color:var(--g500);text-transform:uppercase;margin-bottom:4px">Keys</div>
-<div style="font-weight:800;font-size:12px;color:${s.configured?'#15803d':'#92400e'}">${s.configured?'SET':'NOT SET'}</div>
-</div>
-<div style="background:${s.mode==='live'?'#fee2e2':'#dbeafe'};border-radius:10px;padding:10px;text-align:center">
-<div style="font-size:9px;color:var(--g500);text-transform:uppercase;margin-bottom:4px">Mode</div>
-<div style="font-weight:800;font-size:12px;color:${s.mode==='live'?'#dc2626':'#1d4ed8'}">${(s.mode||'test').toUpperCase()}</div>
-</div>
-</div>
-${!s.configured?'<div style="background:#fef3c7;border:1px solid #fde68a;border-radius:10px;padding:11px;margin-bottom:14px;font-size:12px;color:#92400e">&#9888; No keys saved yet. Save your keys below, then turn the gateway on.</div>':''}
-<div style="margin-bottom:11px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">Mode</label><select class="inp" id="fw-mode-sel"><option value="test" ${(s.mode||'test')==='test'?'selected':''}>Test Mode</option><option value="live" ${s.mode==='live'?'selected':''}>Live Mode</option></select></div>
-<div style="margin-bottom:11px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">Public Key</label><input class="inp" id="fw-public-input" value="${s.publicKey||''}" placeholder="FLWPUBK_TEST-xxxxxxxx-X" style="font-family:monospace;font-size:12px"/></div>
-<div style="margin-bottom:11px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">Secret Key</label><input class="inp" type="password" id="fw-secret-input" placeholder="FLWSECK_TEST-xxxxxxxx-X" style="font-family:monospace;font-size:12px"/></div>
-<div style="margin-bottom:11px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">Encryption Key <span style="font-weight:400;color:var(--g400)">(optional, legacy v2 charges)</span></label><input class="inp" type="password" id="fw-enckey-input" placeholder="Leave blank if not using v2 encryption"/></div>
-<div style="margin-bottom:14px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">Webhook Secret Hash</label><input class="inp" type="password" id="fw-webhooksecret-input" placeholder="A string only you and Flutterwave know"/><p style="font-size:11px;color:var(--g400);margin-top:5px">Set this same value in your Flutterwave Dashboard → Settings → Webhooks → Secret Hash.</p></div>
-<div style="margin-bottom:11px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">Webhook URL <span style="font-weight:400;color:var(--g400)">(auto-generated — paste into Flutterwave Dashboard)</span></label><div style="display:flex;gap:6px"><input class="inp" value="${urls.webhookUrl}" readonly style="font-family:monospace;font-size:11px;background:#f8fafc;color:var(--g500)"/><button onclick="navigator.clipboard.writeText('${urls.webhookUrl}').then(()=>toast('Copied!'))" style="padding:0 14px;border-radius:9px;border:1px solid #e5e7eb;background:#fff;cursor:pointer;font-size:12px;font-weight:700">Copy</button></div></div>
-<div style="margin-bottom:16px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">Redirect/Callback URL <span style="font-weight:400;color:var(--g400)">(auto-generated)</span></label><div style="display:flex;gap:6px"><input class="inp" value="${urls.callbackUrl}" readonly style="font-family:monospace;font-size:11px;background:#f8fafc;color:var(--g500)"/><button onclick="navigator.clipboard.writeText('${urls.callbackUrl}').then(()=>toast('Copied!'))" style="padding:0 14px;border-radius:9px;border:1px solid #e5e7eb;background:#fff;cursor:pointer;font-size:12px;font-weight:700">Copy</button></div></div>
-<button onclick="adminSaveFlutterwaveKeys()" id="fw-save-btn" class="btn-g" style="width:100%;padding:12px;border-radius:10px;font-size:14px;margin-bottom:10px">Save Keys</button>
-<button onclick="adminTestFlutterwaveKey()" id="fw-test-btn" style="width:100%;padding:12px;border-radius:10px;font-size:14px;font-weight:700;background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;cursor:pointer;font-family:'Inter',sans-serif;margin-bottom:10px">Test Secret Key</button>
-<div id="fw-test-result"></div>
-<div style="display:flex;align-items:center;justify-content:space-between;padding:12px;background:#f8fafc;border-radius:10px;margin-top:6px">
-<div><div style="font-weight:700;font-size:13px">Enable Flutterwave</div><div style="font-size:11px;color:var(--g400)">Shows automatically as a payment option in Fund Wallet</div></div>
-<label style="position:relative;display:inline-block;width:44px;height:24px;flex-shrink:0">
-<input type="checkbox" id="fw-enabled-toggle" ${s.enabled?'checked':''} onchange="adminToggleFlutterwave(this.checked)" style="opacity:0;width:0;height:0">
-<span style="position:absolute;inset:0;background:${s.enabled?'#16a34a':'#cbd5e1'};border-radius:24px;transition:.2s"></span>
-<span style="position:absolute;height:18px;width:18px;left:${s.enabled?'23px':'3px'};bottom:3px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.3)"></span>
-</label>
-</div>
-</div>
-<div class="card" style="padding:14px;font-size:12px;color:var(--g500);line-height:1.8">
-<strong style="color:var(--g700)">One-time setup:</strong> deploy <code>functions/index.js</code> with <code>firebase deploy --only functions</code>, then paste the Webhook URL above into your Flutterwave Dashboard → Settings → Webhooks. After that, changing keys or toggling Test/Live here takes effect immediately &mdash; no redeploy needed.
-</div>`;
-}catch(e){el.innerHTML='<div class="card" style="padding:20px;color:#dc2626">Error: '+e.message+'</div>';}
-}
-async function adminSaveFlutterwaveKeys(){
-if(!isSuperAdmin()){toast('Only the Super Admin can do this');return;}
-const publicKey=(document.getElementById('fw-public-input')?.value||'').trim();
-const secretKey=(document.getElementById('fw-secret-input')?.value||'').trim();
-const encryptionKey=(document.getElementById('fw-enckey-input')?.value||'').trim();
-const webhookSecretHash=(document.getElementById('fw-webhooksecret-input')?.value||'').trim();
-const mode=document.getElementById('fw-mode-sel')?.value||'test';
-if(!publicKey){toast('Enter your Flutterwave Public Key');return;}
-if(!secretKey){toast('Enter your Flutterwave Secret Key');return;}
-if(!webhookSecretHash){toast('Set a Webhook Secret Hash');return;}
-const btn=document.getElementById('fw-save-btn');
-if(btn){btn.disabled=true;btn.textContent='Saving...';}
+await loadPaystackConfig();
+}catch(e){}
+const cfg=_psConfig;
+if(!cfg||!cfg.enabled||!cfg.dvaEnabled){section.style.display='none';return;}
+section.style.display='block';
+const loadingEl=document.getElementById('dva-loading'),noneEl=document.getElementById('dva-none'),activeEl=document.getElementById('dva-active');
+if(loadingEl)loadingEl.style.display='block';
+if(noneEl)noneEl.style.display='none';
+if(activeEl)activeEl.style.display='none';
 try{
-const urls=_fwUrls();
-// Locked document — no read access for anyone, ever.
-await db.collection('adminSettings').doc('flutterwaveSecrets').set({
-secretKey,encryptionKey:encryptionKey||null,webhookSecretHash,
-updatedAt:firebase.firestore.FieldValue.serverTimestamp(),updatedBy:CU.email
+const uSnap=await db.collection('users').doc(CU.uid).get();
+const ud=uSnap.exists?uSnap.data():{};
+if(loadingEl)loadingEl.style.display='none';
+if(ud.dvaAccountNumber){
+if(activeEl)activeEl.style.display='block';
+const bn=document.getElementById('dva-bank-name');if(bn)bn.textContent=ud.dvaBankName||'—';
+const an=document.getElementById('dva-acct-num');if(an)an.textContent=ud.dvaAccountNumber;
+const anm=document.getElementById('dva-acct-name');if(anm)anm.textContent=ud.dvaAccountName||'—';
+checkDedicatedAccountPayments(false);
+}else{
+if(noneEl)noneEl.style.display='block';
+}
+}catch(e){if(loadingEl)loadingEl.textContent='Error loading account details.';}
+}
+function copyDvaAccount(){
+const num=document.getElementById('dva-acct-num')?.textContent||'';
+if(!num||num==='—')return;
+if(navigator.clipboard&&navigator.clipboard.writeText){
+navigator.clipboard.writeText(num).then(()=>toast('Account number copied!')).catch(()=>toast('Could not copy — copy it manually.'));
+}else{toast('Copy not supported — copy it manually: '+num);}
+}
+async function createPaystackDedicatedAccount(){
+if(!CU){toast('Please log in first');return;}
+const btn=document.getElementById('dva-create-btn');
+if(btn){btn.disabled=true;btn.textContent='Creating your account...';}
+try{
+const cfgSnap=await db.collection('settings').doc('paystack').get();
+const cfg=cfgSnap.exists?cfgSnap.data():{};
+if(!cfg.secretKey){toast('Payment provider is not configured yet. Contact admin.');return;}
+if(!cfg.dvaEnabled){toast('Dedicated accounts are currently disabled.');return;}
+const uSnap=await db.collection('users').doc(CU.uid).get();
+const ud=uSnap.exists?uSnap.data():{};
+if(ud.dvaAccountNumber){toast('You already have a dedicated account.');loadDvaSection();return;}
+let customerCode=ud.paystackCustomerCode;
+if(!customerCode){
+const nameParts=(ud.name||'Zmonie User').trim().split(' ');
+const custRes=await fetch('https://api.paystack.co/customer',{
+method:'POST',
+headers:{Authorization:'Bearer '+cfg.secretKey,'Content-Type':'application/json'},
+body:JSON.stringify({
+email:CU.email||ud.email||('user'+CU.uid+'@zmonie.com'),
+first_name:nameParts[0]||'Zmonie',
+last_name:nameParts.slice(1).join(' ')||'User',
+phone:ud.phone||''
+})
 });
-// Public status doc — booleans + the (safe) public key only.
-await db.collection('adminSettings').doc('flutterwaveStatus').set({
-configured:true,mode,publicKey,
-callbackUrl:urls.callbackUrl,webhookUrl:urls.webhookUrl,
-updatedAt:firebase.firestore.FieldValue.serverTimestamp()
-},{merge:true});
-toast('✅ Flutterwave keys saved securely');
-loadAdminFlutterwaveSettings(document.getElementById('a-content'));
-loadFlutterwaveConfig();
+const custData=await custRes.json();
+if(!custData.status){throw new Error(custData.message||'Could not create your customer profile on Paystack.');}
+customerCode=custData.data.customer_code;
+await db.collection('users').doc(CU.uid).update({paystackCustomerCode:customerCode});
+}
+const dvaRes=await fetch('https://api.paystack.co/dedicated_account',{
+method:'POST',
+headers:{Authorization:'Bearer '+cfg.secretKey,'Content-Type':'application/json'},
+body:JSON.stringify({customer:customerCode,preferred_bank:cfg.preferredBank||'wema-bank'})
+});
+const dvaData=await dvaRes.json();
+if(!dvaData.status){throw new Error(dvaData.message||'Could not create a dedicated account. Make sure Dedicated Virtual Accounts is enabled on your Paystack account (contact Paystack support to enable it).');}
+const acct=dvaData.data;
+await db.collection('users').doc(CU.uid).update({
+dvaAccountNumber:acct.account_number,
+dvaBankName:(acct.bank&&acct.bank.name)||'',
+dvaAccountName:acct.account_name||'',
+dvaAccountId:acct.id,
+dvaCreatedAt:firebase.firestore.FieldValue.serverTimestamp()
+});
+toast('✅ Your dedicated account number is ready!');
+loadDvaSection();
 }catch(e){toast('Error: '+e.message);}
-finally{if(btn){btn.disabled=false;btn.textContent='Save Keys';}}
+finally{if(btn){btn.disabled=false;btn.textContent='+ Get My Account Number';}}
 }
-async function adminToggleFlutterwave(enabled){
-if(!isSuperAdmin()){toast('Only the Super Admin can do this');return;}
+async function checkDedicatedAccountPayments(showToast){
+if(!CU)return;
 try{
-const statusSnap=await db.collection('adminSettings').doc('flutterwaveStatus').get();
-const configured=statusSnap.exists&&statusSnap.data().configured;
-if(enabled&&!configured){
-toast('⚠️ Save your keys before enabling Flutterwave');
-loadAdminFlutterwaveSettings(document.getElementById('a-content'));
-return;
+const uSnap=await db.collection('users').doc(CU.uid).get();
+const ud=uSnap.exists?uSnap.data():{};
+if(!ud.dvaAccountNumber)return;
+const cfgSnap=await db.collection('settings').doc('paystack').get();
+const cfg=cfgSnap.exists?cfgSnap.data():{};
+if(!cfg.secretKey)return;
+if(showToast)toast('Checking for new payments...');
+const res=await fetch('https://api.paystack.co/transaction?customer='+encodeURIComponent(ud.paystackCustomerCode||'')+'&status=success&perPage=20',{
+headers:{Authorization:'Bearer '+cfg.secretKey}
+});
+const data=await res.json();
+if(!data.status){if(showToast)toast('Could not check right now — try again shortly.');return;}
+const txs=(data.data||[]).filter(t=>t.channel==='dedicated_nuban');
+let creditedCount=0,creditedTotal=0;
+for(const t of txs){
+const ref='PSDVA_'+t.reference;
+const existing=await db.collection('transactions').where('userId','==',CU.uid).where('paystackRef','==',ref).limit(1).get();
+if(!existing.empty)continue;
+const amt=(t.amount||0)/100;
+await db.collection('users').doc(CU.uid).update({balance:firebase.firestore.FieldValue.increment(amt)});
+await db.collection('transactions').add({userId:CU.uid,type:'dedicated_account_credit',amount:amt,description:'Bank transfer to dedicated account '+(ud.dvaAccountNumber||''),status:'success',paystackRef:ref,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+await addNotif(CU.uid,'Wallet Credited','NGN '+fmt(amt)+' was credited from a transfer to your dedicated account.');
+creditedCount++;creditedTotal+=amt;
 }
-await db.collection('adminSettings').doc('flutterwaveStatus').set({enabled,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
-toast(enabled?'Flutterwave enabled — now live on Fund Wallet':'Flutterwave disabled');
-loadFlutterwaveConfig();
-loadAdminFlutterwaveSettings(document.getElementById('a-content'));
-}catch(e){toast('Error: '+e.message);}
-}
-async function adminTestFlutterwaveKey(){
-if(!isSuperAdmin()){toast('Only the Super Admin can do this');return;}
-const btn=document.getElementById('fw-test-btn');
-const resultEl=document.getElementById('fw-test-result');
-if(btn){btn.disabled=true;btn.textContent='Testing...';}
-if(resultEl)resultEl.innerHTML='';
-try{
-if(!fns)throw new Error('Backend functions unavailable. Deploy functions/index.js first.');
-const res=await fns.httpsCallable('testFlutterwaveSecret')({});
-const data=res.data||{};
-if(resultEl)resultEl.innerHTML=`<div style="margin-top:8px;padding:11px;border-radius:9px;background:${data.valid?'#dcfce7':'#fee2e2'};color:${data.valid?'#15803d':'#dc2626'};font-size:12px;font-weight:600">${data.valid?'✅':'❌'} ${data.message||'Unknown result'}</div>`;
-}catch(e){
-if(resultEl)resultEl.innerHTML=`<div style="margin-top:8px;padding:11px;border-radius:9px;background:#fee2e2;color:#dc2626;font-size:12px;font-weight:600">❌ ${e.message}</div>`;
-}finally{if(btn){btn.disabled=false;btn.textContent='Test Secret Key';}}
+if(creditedCount>0){toast('🎉 NGN '+fmt(creditedTotal)+' credited from '+creditedCount+' new transfer(s)!');loadDashBalance();}
+else if(showToast)toast('No new payments found yet. If you just paid, it can take a minute to reflect.');
+}catch(e){if(showToast)toast('Error checking payments: '+e.message);}
 }
 
 async function loadAdminPromos(el){
@@ -4993,11 +4991,7 @@ const psSection=document.getElementById('ps-fund-section');
 if(psSection) psSection.style.display=(_psConfig&&_psConfig.enabled)?'block':'none';
 }catch(e){}
 try{
-if(!window._fwCfg)await loadFlutterwaveConfig();
-const fwSection=document.getElementById('fw-fund-section');
-if(fwSection) fwSection.style.display=(window._fwCfg&&window._fwCfg.enabled)?'block':'none';
-const fwBadge=document.getElementById('fw-mode-badge');
-if(fwBadge)fwBadge.style.display=(window._fwCfg&&window._fwCfg.mode==='test')?'inline-block':'none';
+await loadDvaSection();
 }catch(e){}
 try{
 const s=await db.collection('fundingAccounts').where('active','==',true).get();
@@ -8058,6 +8052,8 @@ const secKey=cfg.secretKey||'';
 const whSec=cfg.webhookSecret||'';
 const btEnabled=cfg.bankTransferEnabled===true;
 const btFee=cfg.bankTransferFee!==undefined?cfg.bankTransferFee:50;
+const dvaEnabled=cfg.dvaEnabled===true;
+const preferredBank=cfg.preferredBank||'wema-bank';
 el.innerHTML=
 '<div style="max-width:560px">'+
 '<div style="background:'+(enabled?'#dcfce7':'#fef9c3')+';border:1.5px solid '+(enabled?'#86efac':'#fde047')+';border-radius:14px;padding:16px 18px;margin-bottom:18px;display:flex;align-items:center;gap:14px">'+
@@ -8107,6 +8103,28 @@ el.innerHTML=
 '</div></div>'+
 '<button onclick="savePaystackSettings()" class="btn-g" style="width:100%;padding:13px;border-radius:11px;font-size:15px">&#128190; Save Bank Transfer Settings</button>'+
 '</div>'+
+'<div class="card" style="padding:22px;margin-bottom:16px;border:2px solid '+(dvaEnabled?'#5eead4':'#e2e8f0')+'">'+
+'<div style="font-size:15px;font-weight:800;margin-bottom:4px">&#127974; Dedicated Account Numbers</div>'+
+'<div style="font-size:12px;color:var(--g400);margin-bottom:16px">Gives every user a permanent bank account number in their name. Any transfer into it credits their wallet automatically &mdash; no proof upload, no admin review.</div>'+
+'<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:#f8fafc;border-radius:11px;margin-bottom:16px">'+
+'<div><div style="font-weight:700;font-size:14px">Enable Dedicated Accounts</div>'+
+'<div style="font-size:12px;color:var(--g400);margin-top:2px">Shows the &ldquo;Your Dedicated Account&rdquo; section on Fund Wallet</div></div>'+
+'<div class="tsw '+(dvaEnabled?'on':'')+'" id="ps-dva-toggle" onclick="this.classList.toggle(\'on\')"></div></div>'+
+'<div style="margin-bottom:16px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:6px;display:block">Preferred Bank</label>'+
+'<select class="inp" id="ps-dva-bank">'+
+'<option value="wema-bank"'+(preferredBank==='wema-bank'?' selected':'')+'>Wema Bank</option>'+
+'<option value="titan-paystack"'+(preferredBank==='titan-paystack'?' selected':'')+'>Titan Paystack Bank</option>'+
+'</select>'+
+'<div style="font-size:11px;color:var(--g400);margin-top:4px">Which partner bank issues the account numbers. Depends on what your Paystack account has access to.</div></div>'+
+'<div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:12px;margin-bottom:16px">'+
+'<div style="font-size:12px;font-weight:700;color:#92400e;margin-bottom:6px">&#128161; Before enabling</div>'+
+'<div style="font-size:12px;color:#92400e;line-height:1.8">'+
+'&#8226; Your Paystack account must have <strong>Dedicated Virtual Accounts</strong> enabled &mdash; contact Paystack support if you don&rsquo;t see it in your dashboard<br/>'+
+'&#8226; Works with <strong>Live Mode</strong> keys only for real bank transfers<br/>'+
+'&#8226; Users tap &ldquo;I just paid &mdash; Check Now&rdquo; for instant crediting, or deploy the optional <code>paystackWebhook</code> Cloud Function so it credits even while the app is closed'+
+'</div></div>'+
+'<button onclick="savePaystackSettings()" class="btn-g" style="width:100%;padding:13px;border-radius:11px;font-size:15px;background:linear-gradient(135deg,#0f766e,#0d9488)">&#128190; Save Dedicated Account Settings</button>'+
+'</div>'+
 '<div class="card" style="padding:20px;margin-bottom:16px">'+
 '<div style="font-size:14px;font-weight:800;margin-bottom:12px">&#128214; How to Get Your Paystack Keys</div>'+
 '<div style="display:flex;flex-direction:column;gap:10px">'+
@@ -8145,13 +8163,16 @@ var testBtn=document.getElementById('ps-mode-test');
 var mode=(testBtn&&testBtn.dataset.selected==='1')?'test':'live';
 var bankTransferEnabled=document.getElementById('ps-bt-toggle')?.classList.contains('on')||false;
 var bankTransferFee=parseFloat(document.getElementById('ps-bt-fee')?.value||50);
+var dvaEnabled=document.getElementById('ps-dva-toggle')?.classList.contains('on')||false;
+var preferredBank=document.getElementById('ps-dva-bank')?.value||'wema-bank';
+if(dvaEnabled&&!secretKey){toast('Enter your Paystack Secret Key to enable dedicated accounts');return;}
 if(enabled&&!publicKey){toast('Enter your Paystack Public Key before enabling');return;}
 if(enabled&&!secretKey){toast('Enter your Paystack Secret Key before enabling');return;}
 if(enabled&&publicKey&&!publicKey.startsWith('pk_')){toast('Public key should start with pk_test_ or pk_live_');return;}
 if(bankTransferEnabled&&!secretKey){toast('Enter your Paystack Secret Key to enable bank transfers');return;}
 try{
 await db.collection('settings').doc('paystack').set(
-{enabled,publicKey,secretKey,webhookSecret,mode,bankTransferEnabled,bankTransferFee,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},
+{enabled,publicKey,secretKey,webhookSecret,mode,bankTransferEnabled,bankTransferFee,dvaEnabled,preferredBank,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},
 {merge:true}
 );
 _psConfig=null; // reset cache so next transfer picks up new settings
@@ -8365,82 +8386,6 @@ btn.disabled=false;btn.textContent='Verify & Credit';
 }
 }catch(e){toast('Error: '+e.message);btn.disabled=false;btn.textContent='Verify & Credit';}
 };
-}
-// ============================================================
-// FLUTTERWAVE — client only ever sees the Public Key. The
-// Secret Key, Encryption Key, and Webhook Secret Hash are never
-// loaded into the browser; verification happens in the Cloud
-// Function verifyFlutterwaveTransaction (see functions/index.js).
-// ============================================================
-window._fwCfg=null;
-async function loadFlutterwaveConfig(){
-try{
-const snap=await db.collection('adminSettings').doc('flutterwaveStatus').get();
-window._fwCfg=snap.exists?snap.data():{enabled:false,configured:false,mode:'test'};
-}catch(e){window._fwCfg={enabled:false,configured:false,mode:'test'};}
-return window._fwCfg;
-}
-async function doFlutterwaveFund(){
-const amtEl=document.getElementById('fw-fund-amt');
-const amount=parseFloat(amtEl&&amtEl.value)||0;
-if(!amount||amount<100){toast('Enter amount — minimum NGN 100');if(amtEl)amtEl.focus();return;}
-const btn=document.getElementById('fw-pay-btn');
-if(btn){btn.disabled=true;btn.textContent='Loading Flutterwave...';}
-try{await initFlutterwavePayment(amount);}
-catch(e){toast('Error: '+e.message);}
-finally{if(btn){btn.disabled=false;btn.textContent='💳 Pay with Flutterwave';}}
-}
-async function initFlutterwavePayment(amount){
-if(!CU){toast('Please log in first');return;}
-await loadFlutterwaveConfig();
-const cfg=window._fwCfg;
-if(!cfg||!cfg.enabled){toast('Card payment via Flutterwave is currently disabled.');return;}
-if(!cfg.publicKey){toast('Flutterwave key not set. Contact admin.');return;}
-if(!window.FlutterwaveCheckout){
-await new Promise((res,rej)=>{
-const s=document.createElement('script');s.src='https://checkout.flutterwave.com/v3.js';
-s.onload=res;s.onerror=()=>rej(new Error('Failed to load Flutterwave script. Check internet connection.'));
-document.head.appendChild(s);
-});
-}
-const txRef='ZM_FW_'+Date.now()+'_'+Math.random().toString(36).slice(2,8).toUpperCase();
-window.FlutterwaveCheckout({
-public_key:cfg.publicKey,
-tx_ref:txRef,
-amount:amount,
-currency:'NGN',
-redirect_url:cfg.callbackUrl||undefined,
-customer:{email:CU.email||'user@zmonie.com',name:(UD&&UD.name)||'',phonenumber:(UD&&UD.phone)||''},
-customizations:{title:'ZMONIE Wallet Funding',description:'Fund your ZMONIE wallet',logo:''},
-meta:{userId:CU.uid,purpose:'wallet_funding'},
-callback:function(response){
-(async function(){
-const payBtn=document.getElementById('fw-pay-btn');
-if(payBtn){payBtn.disabled=true;payBtn.textContent='Verifying payment...';}
-try{
-if(!fns)throw new Error('Verification service unavailable. Contact support with ref: '+txRef);
-const res=await fns.httpsCallable('verifyFlutterwaveTransaction')({
-transaction_id:response.transaction_id,tx_ref:response.tx_ref||txRef,expectedAmount:amount
-});
-if(res?.data?.success){
-const snap=await db.collection('users').doc(CU.uid).get();
-UD=snap.data();
-const balEl=document.getElementById('d-bal');
-if(balEl)balEl.innerHTML=bHid?fmtCsym()+'****':fmtC(UD.balance||0);
-closeM('m-fund');
-toast('🎉 NGN '+fmt(amount)+' added to your wallet!');
-}else{
-toast('Payment could not be verified. If you were charged, contact support with ref: '+txRef);
-}
-}catch(e){
-toast('Verification error: '+(e.message||'Contact support')+' — ref: '+txRef);
-}finally{
-if(payBtn){payBtn.disabled=false;payBtn.textContent='💳 Pay with Flutterwave';}
-}
-})();
-},
-onclose:function(){}
-});
 }
 // ---- Manual Funding Receipt Upload ----
 var _mfReceiptFile=null;
