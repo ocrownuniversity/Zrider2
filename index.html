@@ -1429,7 +1429,7 @@ async function doLogin(){
             break;
           }
           if(!foundBID){
-            const staffSnap=await bDoc.ref.collection('staff').get();
+            const staffSnap=await db.collection('buyers').doc(b.id).collection('staff').get();
             for(const sd of staffSnap.docs){
               const su=sd.data();
               if(su.email&&su.email.toLowerCase()===email&&su.password===pass){
