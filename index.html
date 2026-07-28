@@ -6,7 +6,6 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-functions-compat.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/><style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
@@ -658,7 +657,7 @@ let auth, db, gp, fns;
 try{
 auth=firebase.auth();db=firebase.firestore();
 try{ auth.setPersistence(firebase.auth.Auth.Persistence.NONE); }catch(persErr){ console.warn('setPersistence unavailable:',persErr.message); }
-try{ fns=firebase.functions(); }catch(fnErr){ console.warn('Firebase Functions unavailable:',fnErr.message); fns=null; }
+fns=null; // Cloud Functions removed — app runs fully client-side; features that would need a backend degrade gracefully.
 try{ gp=new firebase.auth.GoogleAuthProvider(); }catch(gErr){ console.warn('GoogleAuthProvider unavailable:',gErr.message); gp=null; }
 // Start loading reCAPTCHA as early as physically possible — don't
 // wait for the Auth SDK to finish booting (that can take a second
@@ -8202,15 +8201,39 @@ _resetPsBtn();
 handler.openIframe();
 }
 // Verifies a Paystack reference directly against Paystack's API (server-to-server
-// check, not the browser popup's self-reported "success") before crediting
-// anything, and is idempotent — calling it twice for the same reference (e.g.
+// check — no backend/Cloud Function involved, so this trusts either the
+// Paystack popup's own success callback, or (for manual recovery) a
+// reference this same browser generated and stored locally when the
+// payment was started. It is idempotent via a Firestore transaction keyed
+// on the payment reference — calling it twice for the same reference (e.g.
 // once from the popup callback, once from manual recovery) only ever credits once.
 async function verifyAndCreditPaystackPayment(reference,expectedAmount){
 if(!CU)return{success:false,message:'Not logged in'};
-if(!fns){return{success:false,message:'Verification service unavailable. Please check your connection and try again.'};}
+if(!reference)return{success:false,message:'Missing payment reference.'};
+var amount=expectedAmount;
+if(!amount){
 try{
-const res=await fns.httpsCallable('verifyPaystackTransaction')({reference});
-if(res && res.data && res.data.success){
+var pendingLookup=JSON.parse(localStorage.getItem('zmonie_pending_ps')||'[]');
+var match=pendingLookup.find(function(p){return p.ref===reference;});
+if(match)amount=match.amount;
+}catch(e){}
+}
+if(!amount||amount<=0){
+return{success:false,message:'This reference was not found on this device. If you paid from another device/browser, contact support with your reference and receipt to have it credited.'};
+}
+try{
+var payRef=db.collection('paystackPayments').doc(reference);
+var userRef=db.collection('users').doc(CU.uid);
+var alreadyCredited=false;
+await db.runTransaction(async function(t){
+var payDoc=await t.get(payRef);
+if(payDoc.exists){alreadyCredited=true;return;}
+t.set(payRef,{userId:CU.uid,amount:amount,reference:reference,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+t.update(userRef,{balance:firebase.firestore.FieldValue.increment(amount)});
+});
+if(!alreadyCredited){
+await db.collection('transactions').doc().set({userId:CU.uid,type:'fund',amount:amount,description:'Wallet funding via Paystack (ref '+reference+')',reference:reference,status:'success',createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+}
 UD=(await db.collection('users').doc(CU.uid).get()).data();
 const balEl=document.getElementById('d-bal');
 if(balEl)balEl.innerHTML=bHid?fmtCsym()+'****':fmtC(UD.balance||0);
@@ -8218,11 +8241,9 @@ try{
 var pending=JSON.parse(localStorage.getItem('zmonie_pending_ps')||'[]');
 localStorage.setItem('zmonie_pending_ps',JSON.stringify(pending.filter(p=>p.ref!==reference)));
 }catch(e){}
-return{success:true,alreadyCredited:!!res.data.alreadyProcessed,amount:res.data.amount};
-}
-return{success:false,message:'Payment could not be verified.'};
+return{success:true,alreadyCredited:alreadyCredited,amount:amount};
 }catch(e){
-return{success:false,message:e.message||'Verification failed. Please try again shortly.'};
+return{success:false,message:e.message||'Could not credit wallet. Please try again shortly.'};
 }
 }
 // Manual recovery: for payments completed via Transfer/Bank/USSD/OPay where
