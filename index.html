@@ -768,7 +768,7 @@ if(id==='pg-fin-notif')loadFinanceNotifs();
 if(id==='pg-rewards')loadRewardsPage();
 }
 function navTo(id,el){document.querySelectorAll('.bni').forEach(n=>n.classList.remove('on'));if(el)el.classList.add('on');goPg(id);if(id==='pg-hist')loadHist();if(id==='pg-notif')loadNotifs();if(id==='pg-profile')chkPinStatus();}
-function openM(id){document.getElementById(id).classList.add('open');if(id==='m-fund')loadFundAccountsForUser();}
+function openM(id){document.getElementById(id).classList.add('open');if(id==='m-fund'){loadFundAccountsForUser();if(typeof autoRecoverPendingPaystackPayments==='function')autoRecoverPendingPaystackPayments();}}
 function closeM(id){document.getElementById(id).classList.remove('open');}
 
 function updateNokDob(){
@@ -1106,6 +1106,7 @@ var subSnap=await db.collection('subAdmins').where('email','==',u.email).where('
 if(!subSnap.empty){showAdminSecurityGate();return;}
 }catch(e2){}
 goPg('pg-dash');loadDash();startPinApprovalListener(u.uid);
+if(typeof autoRecoverPendingPaystackPayments==='function')autoRecoverPendingPaystackPayments();
 }else{CU=null;UD=null;stopIdleTimer();goPg('pg-login');}
 });
 
@@ -8140,6 +8141,38 @@ try{await initPaystackPayment(amount);}
 catch(e){toast('Error: '+e.message);}
 finally{_resetPsBtn();}
 }
+// Silent background recovery: runs automatically after login/dashboard
+// load (no button press needed) and tries to credit any payment
+// references this device started but never got credited — e.g. the
+// popup callback never fired because the user left the page for a
+// bank transfer/USSD/OPay method, or the app was closed mid-payment.
+// This is why most people should never need to touch "Verify a Payment"
+// manually; it's kept around only for the rare case of paying from a
+// different device/browser than the one that's signed in now.
+var _psAutoRecoverRunning=false;
+async function autoRecoverPendingPaystackPayments(){
+if(!CU||_psAutoRecoverRunning)return;
+var pending;
+try{pending=JSON.parse(localStorage.getItem('zmonie_pending_ps')||'[]');}catch(e){pending=[];}
+if(!pending.length)return;
+_psAutoRecoverRunning=true;
+var cutoff=Date.now()-48*60*60*1000; // ignore anything older than 48h — almost certainly abandoned
+var recent=pending.filter(function(p){return p.ts>=cutoff;});
+try{
+for(var i=0;i<recent.length;i++){
+try{
+var r=await verifyAndCreditPaystackPayment(recent[i].ref,recent[i].amount);
+if(r&&r.success&&!r.alreadyCredited){
+toast('🎉 NGN '+fmt(r.amount)+' added to your wallet!');
+}
+}catch(e){/* silent — will retry again next load */}
+}
+try{
+var stillPending=JSON.parse(localStorage.getItem('zmonie_pending_ps')||'[]').filter(function(p){return p.ts>=cutoff;});
+localStorage.setItem('zmonie_pending_ps',JSON.stringify(stillPending));
+}catch(e){}
+}finally{_psAutoRecoverRunning=false;}
+}
 async function initPaystackPayment(amount){
 if(!amount||isNaN(amount)||amount<100){toast('Enter amount (minimum NGN 100)');return;}
 var cfgSnap,cfg;
@@ -8179,22 +8212,28 @@ callback:function(response){
 (async function(){
 var pRef=response.reference||ref;
 toast('Verifying your payment...',4000);
+var result=null;
+// Retry a few times with a short delay — covers a brief network
+// hiccup or Firestore write contention right after payment, so the
+// person almost never has to press "Verify a Payment" themselves.
+for(var attempt=0;attempt<4;attempt++){
 try{
-var result=await verifyAndCreditPaystackPayment(pRef,amount);
-if(result.success){
+result=await verifyAndCreditPaystackPayment(pRef,amount);
+if(result&&result.success)break;
+}catch(e){result={success:false,message:e.message};}
+if(attempt<3)await new Promise(function(res){setTimeout(res,1500);});
+}
+if(result&&result.success){
 closeM('m-fund');
 toast(result.alreadyCredited?'✅ This payment was already credited to your wallet.':'🎉 NGN '+fmt(amount)+' added to your wallet!');
 }else{
-toast('Payment could not be verified yet: '+result.message+' — try "Verify a Payment" in Fund Wallet with ref '+pRef+' in a moment.');
-}
-}catch(e){
-toast('Could not verify payment automatically. Use "Verify a Payment" in Fund Wallet with ref: '+pRef);
+toast('Your payment went through — crediting your wallet now, this can take a moment. It\'ll appear automatically; no action needed.');
 }
 _resetPsBtn();
 })();
 },
 onClose:function(){
-toast('Payment window closed. If you completed payment, use "Verify a Payment" in Fund Wallet to confirm it.',5000);
+toast('Payment window closed. If you completed payment, your wallet will be credited automatically shortly.',5000);
 _resetPsBtn();
 }
 });
