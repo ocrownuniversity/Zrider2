@@ -2993,7 +2993,7 @@ let amountContributed=p.amountContributed||0;
 let missedDeductions=p.missedDeductions||0;
 let interestPayments=p.interestPayments||[];
 let changed=false;
-const typeLabel=p.type==='daily'?'Daily':'Weekly';
+const typeLabel=p.type==='daily'?'Daily':p.type==='weekly'?'Weekly':'Monthly';
 // --- Installment deductions ---
 if(sch.length&&(forced||p.lastDeductionDate!==todayStr)){
 const overdue=sch.filter(s=>!s.paid&&s.dueDate<=todayStr);
@@ -10690,7 +10690,7 @@ const statusColor=p.status==='active'?'#059669':p.status==='completed'?'#1d4ed8'
 const statusBg=p.status==='active'?'#dcfce7':p.status==='completed'?'#dbeafe':'#fee2e2';
 return`<div class="card" style="padding:15px;margin-bottom:10px">
 <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
-<div><div style="font-weight:700;font-size:14px">${p.type==='daily'?'📅 Daily':'📆 Weekly'} Contribution</div><div style="font-size:11px;color:var(--g400)">NGN ${fmt(p.amount)} per ${p.type==='daily'?'day':'week'} &middot; ${p.durationMonths} month(s)</div></div>
+<div><div style="font-weight:700;font-size:14px">${p.type==='daily'?'📅 Daily':p.type==='weekly'?'📆 Weekly':'🗓️ Monthly'} Contribution</div><div style="font-size:11px;color:var(--g400)">NGN ${fmt(p.amount)} per ${p.type==='daily'?'day':p.type==='weekly'?'week':'month'} &middot; ${p.durationMonths} month(s)</div></div>
 <span style="font-size:10px;font-weight:700;padding:4px 9px;border-radius:50px;background:${statusBg};color:${statusColor}">${(p.status||'').toUpperCase()}</span>
 </div>
 ${p.status==='active'?`
@@ -11077,9 +11077,9 @@ function openSavingsType(type){
       if(lbl)lbl.textContent=this.value==='percent'?'Percentage per transaction (%)':'Fixed amount per transaction (NGN)';
     }));
   } else if(type==='contribution'){
-    el.innerHTML=`<div style="background:#eff6ff;border:1.5px solid #93c5fd;border-radius:11px;padding:13px;margin-bottom:14px"><div style="font-size:12px;font-weight:700;color:#1d4ed8;margin-bottom:6px">📅 Daily/Weekly Contribution</div><p style="font-size:12px;color:#2563eb;line-height:1.7">Commit to contributing a fixed amount on a schedule. Your first installment is deducted now; the rest happen automatically. Earn interest at maturity.</p></div>
+    el.innerHTML=`<div style="background:#eff6ff;border:1.5px solid #93c5fd;border-radius:11px;padding:13px;margin-bottom:14px"><div style="font-size:12px;font-weight:700;color:#1d4ed8;margin-bottom:6px">📅 Daily/Weekly/Monthly Contribution</div><p style="font-size:12px;color:#2563eb;line-height:1.7">Commit to contributing a fixed amount on a schedule. Your first installment is deducted now; the rest happen automatically. Earn interest monthly while your plan is active.</p></div>
     <div id="contrib-config-note" style="display:none;background:#fef3c7;border:1px solid #fde68a;border-radius:10px;padding:11px;margin-bottom:12px;font-size:12px;color:#92400e"></div>
-    <div style="margin-bottom:12px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:8px;display:block">Contribution Frequency</label><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><label style="display:flex;align-items:center;gap:8px;padding:11px;border:1.5px solid var(--green);border-radius:10px;cursor:pointer;background:#f0fdf4;font-size:13px;font-weight:600"><input type="radio" name="contrib-type" value="daily" checked style="accent-color:var(--green)" onchange="updateContribPreview()"/> Daily</label><label style="display:flex;align-items:center;gap:8px;padding:11px;border:1.5px solid var(--g200);border-radius:10px;cursor:pointer;font-size:13px;font-weight:600"><input type="radio" name="contrib-type" value="weekly" style="accent-color:var(--green)" onchange="updateContribPreview()"/> Weekly</label></div></div>
+    <div style="margin-bottom:12px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:8px;display:block">Contribution Frequency</label><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px"><label style="display:flex;align-items:center;gap:8px;padding:11px;border:1.5px solid var(--green);border-radius:10px;cursor:pointer;background:#f0fdf4;font-size:13px;font-weight:600"><input type="radio" name="contrib-type" value="daily" checked style="accent-color:var(--green)" onchange="updateContribPreview()"/> Daily</label><label style="display:flex;align-items:center;gap:8px;padding:11px;border:1.5px solid var(--g200);border-radius:10px;cursor:pointer;font-size:13px;font-weight:600"><input type="radio" name="contrib-type" value="weekly" style="accent-color:var(--green)" onchange="updateContribPreview()"/> Weekly</label><label style="display:flex;align-items:center;gap:8px;padding:11px;border:1.5px solid var(--g200);border-radius:10px;cursor:pointer;font-size:13px;font-weight:600"><input type="radio" name="contrib-type" value="monthly" style="accent-color:var(--green)" onchange="updateContribPreview()"/> Monthly</label></div></div>
     <div style="margin-bottom:11px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block" id="contrib-amt-label">Amount per Day (NGN) *</label><input class="inp" type="number" id="contrib-amount" placeholder="e.g. 500" oninput="updateContribPreview()"/></div>
     <div style="margin-bottom:12px"><label style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:5px;display:block">Duration *</label><select class="inp" id="contrib-duration" onchange="updateContribPreview()"><option value="1">1 Month</option><option value="2">2 Months</option><option value="3">3 Months</option><option value="6">6 Months</option><option value="12">12 Months</option></select></div>
     <div id="contrib-preview" style="display:none;background:#dbeafe;border-radius:10px;padding:12px;margin-bottom:14px;font-size:12px;color:#1e3a8a;line-height:1.9"></div>
@@ -11101,10 +11101,11 @@ function openSavingsType(type){
 // ============================================================
 window._contribCfg=null;
 async function loadContributionConfigForUser(){
+const defaults={dailyEnabled:true,weeklyEnabled:true,monthlyEnabled:true,minAmount:100,maxAmount:100000,availableDurations:[1,2,3,6,12],dailyRates:{1:3,2:5,3:6,6:9,12:14},weeklyRates:{1:3,2:5,3:6,6:9,12:14},monthlyRates:{1:3,2:5,3:6,6:9,12:14}};
 try{
 const snap=await db.collection('settings').doc('contributions').get();
-window._contribCfg=snap.exists?snap.data():{dailyEnabled:true,weeklyEnabled:true,minAmount:100,maxAmount:100000,availableDurations:[1,2,3,6,12],dailyRates:{1:3,2:5,3:6,6:9,12:14},weeklyRates:{1:3,2:5,3:6,6:9,12:14}};
-}catch(e){window._contribCfg={dailyEnabled:true,weeklyEnabled:true,minAmount:100,maxAmount:100000,availableDurations:[1,2,3,6,12],dailyRates:{1:3,2:5,3:6,6:9,12:14},weeklyRates:{1:3,2:5,3:6,6:9,12:14}};}
+window._contribCfg=snap.exists?Object.assign({},defaults,snap.data()):defaults;
+}catch(e){window._contribCfg=defaults;}
 const cfg=window._contribCfg;
 const note=document.getElementById('contrib-config-note');
 const durSel=document.getElementById('contrib-duration');
@@ -11112,16 +11113,22 @@ if(durSel){
 const allowed=cfg.availableDurations||[1,2,3,6,12];
 Array.from(durSel.options).forEach(opt=>{opt.disabled=!allowed.includes(parseInt(opt.value));});
 }
-if(!cfg.dailyEnabled||!cfg.weeklyEnabled){
-if(note){
-note.style.display='block';
-if(!cfg.dailyEnabled&&!cfg.weeklyEnabled)note.textContent='⚠️ Contributions are currently unavailable.';
-else note.textContent='⚠️ '+(!cfg.dailyEnabled?'Daily':'Weekly')+' contributions are currently disabled — only '+(!cfg.dailyEnabled?'Weekly':'Daily')+' is available.';
 const dailyRadio=document.querySelector('input[name="contrib-type"][value="daily"]');
 const weeklyRadio=document.querySelector('input[name="contrib-type"][value="weekly"]');
+const monthlyRadio=document.querySelector('input[name="contrib-type"][value="monthly"]');
 if(dailyRadio)dailyRadio.disabled=!cfg.dailyEnabled;
 if(weeklyRadio)weeklyRadio.disabled=!cfg.weeklyEnabled;
-if(!cfg.dailyEnabled&&weeklyRadio){weeklyRadio.checked=true;}
+if(monthlyRadio)monthlyRadio.disabled=!cfg.monthlyEnabled;
+if(!cfg.dailyEnabled||!cfg.weeklyEnabled||!cfg.monthlyEnabled){
+if(note){
+const disabledNames=[!cfg.dailyEnabled?'Daily':null,!cfg.weeklyEnabled?'Weekly':null,!cfg.monthlyEnabled?'Monthly':null].filter(Boolean);
+const enabledNames=[cfg.dailyEnabled?'Daily':null,cfg.weeklyEnabled?'Weekly':null,cfg.monthlyEnabled?'Monthly':null].filter(Boolean);
+if(!enabledNames.length){note.style.display='block';note.textContent='⚠️ Contributions are currently unavailable.';}
+else{note.style.display='block';note.textContent='⚠️ '+disabledNames.join(' & ')+' contribution'+(disabledNames.length>1?'s are':' is')+' currently disabled — only '+enabledNames.join(' & ')+' available.';}
+}
+if(!cfg.dailyEnabled&&dailyRadio&&dailyRadio.checked){
+const nextRadio=weeklyRadio&&cfg.weeklyEnabled?weeklyRadio:(monthlyRadio&&cfg.monthlyEnabled?monthlyRadio:null);
+if(nextRadio)nextRadio.checked=true;
 }
 }
 updateContribPreview();
@@ -11133,12 +11140,12 @@ const type=document.querySelector('input[name="contrib-type"]:checked')?.value||
 const amt=parseFloat(document.getElementById('contrib-amount')?.value||0);
 const months=parseInt(document.getElementById('contrib-duration')?.value||1);
 const amtLabel=document.getElementById('contrib-amt-label');
-if(amtLabel)amtLabel.textContent='Amount per '+(type==='daily'?'Day':'Week')+' (NGN) *';
+if(amtLabel)amtLabel.textContent='Amount per '+(type==='daily'?'Day':type==='weekly'?'Week':'Month')+' (NGN) *';
 const prev=document.getElementById('contrib-preview');
 if(!prev)return;
 if(!amt||amt<=0){prev.style.display='none';return;}
-const totalInstallments=type==='daily'?months*30:months*4;
-const rateTable=type==='daily'?cfg.dailyRates:cfg.weeklyRates;
+const totalInstallments=type==='daily'?months*30:type==='weekly'?months*4:months;
+const rateTable=type==='daily'?cfg.dailyRates:type==='weekly'?cfg.weeklyRates:cfg.monthlyRates;
 const rate=(rateTable&&rateTable[months]!=null)?rateTable[months]:0;
 const principal=amt*totalInstallments;
 const interest=Math.round(principal*(rate/100)*100)/100;
@@ -11162,11 +11169,12 @@ if(hp(pin)!==(UD?.pin||'')){toast('Incorrect PIN');['svnp1','svnp2','svnp3','svn
 const cfg=window._contribCfg||{};
 if(type==='daily'&&cfg.dailyEnabled===false){toast('Daily contributions are currently disabled');return;}
 if(type==='weekly'&&cfg.weeklyEnabled===false){toast('Weekly contributions are currently disabled');return;}
+if(type==='monthly'&&cfg.monthlyEnabled===false){toast('Monthly contributions are currently disabled');return;}
 if(cfg.minAmount!=null&&amount<cfg.minAmount){toast('Minimum contribution amount is NGN '+fmt(cfg.minAmount));return;}
 if(cfg.maxAmount!=null&&amount>cfg.maxAmount){toast('Maximum contribution amount is NGN '+fmt(cfg.maxAmount));return;}
 if((UD?.balance||0)<amount){toast('Insufficient balance for the first installment');return;}
-const totalInstallments=type==='daily'?durationMonths*30:durationMonths*4;
-const rateTable=type==='daily'?cfg.dailyRates:cfg.weeklyRates;
+const totalInstallments=type==='daily'?durationMonths*30:type==='weekly'?durationMonths*4:durationMonths;
+const rateTable=type==='daily'?cfg.dailyRates:type==='weekly'?cfg.weeklyRates:cfg.monthlyRates;
 const rate=(rateTable&&rateTable[durationMonths]!=null)?rateTable[durationMonths]:0;
 const principal=amount*totalInstallments;
 const expectedInterest=Math.round(principal*(rate/100)*100)/100;
@@ -11175,7 +11183,7 @@ const monthlyInterestAmount=Math.round((expectedInterest/durationMonths)*100)/10
 const btn=document.getElementById('contrib-submit-btn');
 if(btn){btn.disabled=true;btn.textContent='Starting plan...';}
 try{
-const frequencyDays=type==='daily'?1:7;
+const frequencyDays=type==='daily'?1:type==='weekly'?7:30;
 const todayStr=localDateStr();
 const startDate=new Date();startDate.setHours(0,0,0,0);
 const schedule=[];
@@ -11202,7 +11210,7 @@ status:'active',
 createdAt:firebase.firestore.FieldValue.serverTimestamp()
 });
 });
-await db.collection('transactions').add({userId:CU.uid,type:'contribution',amount,description:(type==='daily'?'Daily':'Weekly')+' Contribution — installment 1/'+totalInstallments,status:'success',contributionId:planRef.id,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+await db.collection('transactions').add({userId:CU.uid,type:'contribution',amount,description:(type==='daily'?'Daily':type==='weekly'?'Weekly':'Monthly')+' Contribution — installment 1/'+totalInstallments,status:'success',contributionId:planRef.id,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
 UD=(await db.collection('users').doc(CU.uid).get()).data();
 const balEl=document.getElementById('d-bal');
 if(balEl)balEl.innerHTML=bHid?fmtCsym()+'****':fmtC(UD.balance||0);
@@ -11672,8 +11680,10 @@ ctx.clearRect(0,0,W,H);
 const categories=[
 {label:'Daily Active',count:plans.filter(p=>p.type==='daily'&&p.status==='active').length,color:'#059669'},
 {label:'Weekly Active',count:plans.filter(p=>p.type==='weekly'&&p.status==='active').length,color:'#0891b2'},
+{label:'Monthly Active',count:plans.filter(p=>p.type==='monthly'&&p.status==='active').length,color:'#ca8a04'},
 {label:'Daily Completed',count:plans.filter(p=>p.type==='daily'&&p.status==='completed').length,color:'#1d4ed8'},
 {label:'Weekly Completed',count:plans.filter(p=>p.type==='weekly'&&p.status==='completed').length,color:'#7c3aed'},
+{label:'Monthly Completed',count:plans.filter(p=>p.type==='monthly'&&p.status==='completed').length,color:'#c026d3'},
 {label:'Cancelled',count:plans.filter(p=>p.status==='cancelled').length,color:'#dc2626'}
 ];
 const maxVal=Math.max(1,...categories.map(c=>c.count));
@@ -11702,11 +11712,13 @@ let cfg={};
 try{const snap=await db.collection('settings').doc('contributions').get();if(snap.exists)cfg=snap.data();}catch(e){}
 const dailyEnabled=cfg.dailyEnabled!==false;
 const weeklyEnabled=cfg.weeklyEnabled!==false;
+const monthlyEnabled=cfg.monthlyEnabled!==false;
 const minAmount=cfg.minAmount!=null?cfg.minAmount:100;
 const maxAmount=cfg.maxAmount!=null?cfg.maxAmount:100000;
 const durations=cfg.availableDurations||[1,2,3,6,12];
 const dailyRates=cfg.dailyRates||{1:3,2:5,3:6,6:9,12:14};
 const weeklyRates=cfg.weeklyRates||{1:3,2:5,3:6,6:9,12:14};
+const monthlyRates=cfg.monthlyRates||{1:3,2:5,3:6,6:9,12:14};
 const earlyEnabled=cfg.earlyWithdrawalEnabled!==false;
 const earlyPenalty=cfg.earlyWithdrawalPenaltyPct!=null?cfg.earlyWithdrawalPenaltyPct:5;
 el.innerHTML=`
@@ -11717,7 +11729,8 @@ el.innerHTML=`
 <div class="card" style="padding:18px;margin-bottom:14px">
 <div style="font-size:14px;font-weight:700;margin-bottom:14px">Enable / Disable</div>
 <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid #f8fafc"><span style="font-size:13px;font-weight:600">Daily Contributions</span><div class="tsw ${dailyEnabled?'on':''}" id="contrib-daily-toggle" onclick="this.classList.toggle('on')"></div></div>
-<div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0"><span style="font-size:13px;font-weight:600">Weekly Contributions</span><div class="tsw ${weeklyEnabled?'on':''}" id="contrib-weekly-toggle" onclick="this.classList.toggle('on')"></div></div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid #f8fafc"><span style="font-size:13px;font-weight:600">Weekly Contributions</span><div class="tsw ${weeklyEnabled?'on':''}" id="contrib-weekly-toggle" onclick="this.classList.toggle('on')"></div></div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0"><span style="font-size:13px;font-weight:600">Monthly Contributions</span><div class="tsw ${monthlyEnabled?'on':''}" id="contrib-monthly-toggle" onclick="this.classList.toggle('on')"></div></div>
 </div>
 <div class="card" style="padding:18px;margin-bottom:14px">
 <div style="font-size:14px;font-weight:700;margin-bottom:14px">Amount Limits</div>
@@ -11729,11 +11742,12 @@ el.innerHTML=`
 <div class="card" style="padding:18px;margin-bottom:14px">
 <div style="font-size:14px;font-weight:700;margin-bottom:4px">Available Durations &amp; Interest Rates</div>
 <p style="font-size:11px;color:var(--g400);margin-bottom:14px">Rates are % of total principal for the full term. Changing a rate only affects plans created after you save — existing plans keep the rate they started with.</p>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:11px;font-weight:700;color:var(--g400);margin-bottom:6px"><div>Duration</div><div>Daily Rate %</div><div>Weekly Rate %</div></div>
-${[1,2,3,6,12].map(m=>`<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;align-items:center;margin-bottom:8px">
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;font-size:11px;font-weight:700;color:var(--g400);margin-bottom:6px"><div>Duration</div><div>Daily Rate %</div><div>Weekly Rate %</div><div>Monthly Rate %</div></div>
+${[1,2,3,6,12].map(m=>`<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;align-items:center;margin-bottom:8px">
 <label style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600"><input type="checkbox" id="contrib-dur-${m}" ${durations.includes(m)?'checked':''} style="accent-color:var(--green)"/> ${m} mo</label>
 <input class="inp" id="contrib-rate-daily-${m}" type="number" step="0.1" value="${dailyRates[m]!=null?dailyRates[m]:0}" style="padding:8px"/>
 <input class="inp" id="contrib-rate-weekly-${m}" type="number" step="0.1" value="${weeklyRates[m]!=null?weeklyRates[m]:0}" style="padding:8px"/>
+<input class="inp" id="contrib-rate-monthly-${m}" type="number" step="0.1" value="${monthlyRates[m]!=null?monthlyRates[m]:0}" style="padding:8px"/>
 </div>`).join('')}
 </div>
 <div class="card" style="padding:18px;margin-bottom:14px">
@@ -11748,13 +11762,15 @@ ${[1,2,3,6,12].map(m=>`<div style="display:grid;grid-template-columns:1fr 1fr 1f
 async function saveContribSettings(){
 const dailyEnabled=document.getElementById('contrib-daily-toggle').classList.contains('on');
 const weeklyEnabled=document.getElementById('contrib-weekly-toggle').classList.contains('on');
+const monthlyEnabled=document.getElementById('contrib-monthly-toggle').classList.contains('on');
 const minAmount=parseFloat(document.getElementById('contrib-min').value)||0;
 const maxAmount=parseFloat(document.getElementById('contrib-max').value)||0;
 const availableDurations=[1,2,3,6,12].filter(m=>document.getElementById('contrib-dur-'+m).checked);
-const dailyRates={},weeklyRates={};
+const dailyRates={},weeklyRates={},monthlyRates={};
 [1,2,3,6,12].forEach(m=>{
 dailyRates[m]=parseFloat(document.getElementById('contrib-rate-daily-'+m).value)||0;
 weeklyRates[m]=parseFloat(document.getElementById('contrib-rate-weekly-'+m).value)||0;
+monthlyRates[m]=parseFloat(document.getElementById('contrib-rate-monthly-'+m).value)||0;
 });
 const earlyWithdrawalEnabled=document.getElementById('contrib-early-toggle').classList.contains('on');
 const earlyWithdrawalPenaltyPct=parseFloat(document.getElementById('contrib-early-penalty').value)||0;
@@ -11762,7 +11778,7 @@ if(minAmount>maxAmount){toast('Min amount cannot be greater than max amount');re
 if(!availableDurations.length){toast('Select at least one duration');return;}
 try{
 await db.collection('settings').doc('contributions').set({
-dailyEnabled,weeklyEnabled,minAmount,maxAmount,availableDurations,dailyRates,weeklyRates,
+dailyEnabled,weeklyEnabled,monthlyEnabled,minAmount,maxAmount,availableDurations,dailyRates,weeklyRates,monthlyRates,
 earlyWithdrawalEnabled,earlyWithdrawalPenaltyPct,
 updatedAt:firebase.firestore.FieldValue.serverTimestamp()
 },{merge:true});
@@ -11787,7 +11803,7 @@ const statusColor=p.status==='active'?'#059669':p.status==='completed'?'#1d4ed8'
 const statusBg=p.status==='active'?'#dcfce7':p.status==='completed'?'#dbeafe':'#fee2e2';
 return`<div class="card contrib-row" data-name="${(p.userName||'').toLowerCase()}" data-id="${p.id.toLowerCase()}" data-status="${p.status}" style="padding:13px;margin-bottom:8px">
 <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
-<div><strong style="font-size:13px">${p.userName||p.userId}</strong><div style="font-size:11px;color:var(--g400)">${p.type} &middot; NGN ${fmt(p.amount)}/${p.type==='daily'?'day':'wk'} &middot; ${p.durationMonths}mo &middot; ${p.interestRate}% rate</div></div>
+<div><strong style="font-size:13px">${p.userName||p.userId}</strong><div style="font-size:11px;color:var(--g400)">${p.type} &middot; NGN ${fmt(p.amount)}/${p.type==='daily'?'day':p.type==='weekly'?'wk':'mo'} &middot; ${p.durationMonths}mo &middot; ${p.interestRate}% rate</div></div>
 <span style="font-size:9px;font-weight:700;padding:3px 8px;border-radius:50px;background:${statusBg};color:${statusColor}">${(p.status||'').toUpperCase()}</span>
 </div>
 <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--g500)"><span>Contributed: NGN ${fmt(p.amountContributed||0)}</span><span>Installments: ${p.installmentsPaid||0}/${p.totalInstallments}</span></div>
